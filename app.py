@@ -3,8 +3,6 @@ import sys
 import time
 import random 
 import tempfile
-# import win32print, win32api
-# import babel.numbers 
 from tkinter import *
 from tkinter import filedialog, messagebox
 from tkinter import ttk
@@ -33,25 +31,17 @@ def move_window(event):
 
 
 
-class StaffHomePageView(object):
-
-    def get_customer_page(self):
-        self.newWindow = Toplevel()
-        self.app = CustomerPageView(self.newWindow)
-
-    def get_booking_page(self):
-        self.newWindow = Toplevel()
-        self.app = BookingPageView(self.newWindow)
-
-    def get_order_page(self):
-        self.newWindow = Toplevel()
-        self.app = OrderPageView(self.newWindow) 
-
-    def get_account_page(self):
+class LoginPageView(object):
+    """docstring for LoginPageView"""
+    def get_admin_page(self):
         self.root.withdraw()
         self.newWindow = Toplevel()
-        self.app = LoginPageView(self.newWindow)
+        self.app = HomePageView(self.newWindow)
 
+    def get_staff_page(self):
+        self.root.withdraw()
+        self.newWindow = Toplevel()
+        self.app = StaffHomePageView(self.newWindow)
 
     def exit_app(self):
         sure = messagebox.askyesno("Exit","Are you sure you want to exit?", parent=self.root)
@@ -59,173 +49,21 @@ class StaffHomePageView(object):
             global root
             root.quit()
 
-    def about_message(self):
-        msg = """
-        Name: Shalele PLAE Hotel Management System\n
-        Built Date: September 2021\n
-        Vesion: 1.0\n"""
-        messagebox.showinfo("About System", msg)
-
-
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry('1350x700+0+0')
-        self.root.config(bd=0, bg=white_color, relief='flat')
-        self.root.state('zoomed')
-
-        def back_page():
-            root.withdraw()
-            newWindow = Toplevel()
-            app = LoginPageView(newWindow)
-
-
-        # =======================frames==========================
-        top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=5)
-        top_frame.pack(side='top', pady=1, fill='x', expand='false')
-        middle_frame = LabelFrame(self.root, padx=5, pady=2, bg=bg2_color, height=30, width=1600)
-        middle_frame.pack(pady=1, fill='x', expand='false')
-        bottom_frame = LabelFrame(self.root, padx=5, pady=20, bg=white_color, width=1600, relief='flat')
-        bottom_frame.pack(pady=50)
-
-        # labels headers
-        header1_title = Label(top_frame, 
-            text='Shalele PLAE Hotel', 
-            font=('arial', 35, 'bold'),
-            fg=title_color, 
-            bg=bg1_color)
-        header1_title.pack(side=TOP)
-        header2_title = Label(top_frame, 
-            text='Hospitality & Investment Ltd', 
-            font=('arial', 14, 'bold'), 
-            fg=green_color, 
-            bg=bg1_color)
-        header2_title.pack()
-        header3_title = Label(top_frame, 
-            text='No. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.', 
-            font=('arial', 12,), 
-            fg=green_color, 
-            bg=bg1_color)
-        header3_title.pack()
-
-        about_btn = Button(middle_frame, 
-            text="About",  
-            bg='grey', 
-            fg='white',
-            width=16,
-            bd=1,
-            activeforeground=white_color,
-            activebackground=blue_color,
-            font=('arial',14),
-            command=self.about_message)
-        about_btn.grid(row=0, column=0, padx=4)
-
-        user_btn = Button(middle_frame, 
-            text="Admin",  
-            bg=blue_color, 
-            fg=white_color,
-            width=16,
-            bd=1,
-            activeforeground=white_color,
-            activebackground=chocolate_color,
-            font=('arial',14),
-            command=self.get_account_page)
-        user_btn.grid(row=0, column=1, padx=4)
-
-        exit_btn = Button(middle_frame, 
-            text="Exit",  
-            bg=chocolate_color, 
-            fg=white_color,
-            width=16,
-            bd=1,
-            activeforeground=white_color,
-            activebackground=blue_color,
-            font=('arial',14),
-            command=self.exit_app)
-        exit_btn.grid(row=0, column=2, padx=4)
-
-
-        booking_btn = Button(bottom_frame,
-            text='Bookings',
-            width=20,
-            height=6,
-            bg=grey_color, 
-            fg=white_color,
-            activeforeground=white_color,
-            activebackground=blue_color,
-            font=('arial',14), 
-            command=self.get_booking_page)
-        booking_btn.grid(row=0, column=0, pady=20, padx=30)  
-
-        customer_btn = Button(bottom_frame,
-            text='Customers',
-            width=20,
-            height=6,
-            bg=grey_color, 
-            fg=white_color,
-            activeforeground=white_color,
-            activebackground=blue_color,
-            font=('arial',14), 
-            command=self.get_customer_page)
-        customer_btn.grid(row=0, column=1, pady=20, padx=30)  
-
-        order_btn = Button(bottom_frame,
-            text='Orders',
-            width=20,
-            height=6,
-            bg=grey_color, 
-            fg=white_color,
-            activeforeground=white_color,
-            activebackground=blue_color,
-            font=('arial',14), 
-            command=self.get_order_page)
-        order_btn.grid(row=0, column=2, pady=20, padx=30) 
-
-        def get_clock_time():
-            timeVar = time.strftime("%I:%M:%S %p") 
-            clock_lab.config(text=timeVar)
-            clock_lab.after(100, get_clock_time)
-            # time_zone = time.strftime("%Z")
-
-        # clock time label
-        clock_lab = Label(bottom_frame, 
-            font=('arial', 20), 
-            fg=chocolate_color, 
-            bg=white_color,)
-        clock_lab.grid(row=1, column=0, columnspan=3, pady=20, padx=5) 
-
-        # date 
-        today = date.today()
-        date_format = today.strftime("%A - %B %d, %Y")
-
-        date_lab = Label(bottom_frame, 
-            text=date_format, 
-            font=('arial', 14), 
-            fg=blue_color, 
-            bg=white_color)
-        date_lab.grid(row=2, column=0, columnspan=3, pady=20, padx=5)
-
-        get_clock_time()
-
-
-class LoginPageView(object):
-    """docstring for LoginPageView"""
-
-    def get_admin_page(self):
-        self.root.withdraw()
-        self.newWindow = Toplevel()
-        self.app = HomePageView(self.newWindow)
-
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry('600x400+300+100')
+        self.root.title("SHALELE PLACE")
+        self.root.geometry('600x400+200+100')
         self.root.config(bd=1, bg=white_color, relief='raised')
         self.root.resizable(0, 0)
 
         lg_username = StringVar()
         lg_password = StringVar() 
         lg_designation = StringVar()
+
+        # date 
+        today = date.today()
+        set_login_date = today.strftime("%B %d, %Y")
+        set_login_time = str(time.strftime("%I:%M:%S %p"))
 
 
         def clearAll():
@@ -245,6 +83,7 @@ class LoginPageView(object):
                 clearAll()
 
             elif username=="admin" and password=="9090" and designation=="admin":
+                db.insert_login_history(username, set_login_date, set_login_time)
                 self.get_admin_page()
                 clearAll()
 
@@ -256,24 +95,32 @@ class LoginPageView(object):
                     clearAll()
                 else:
                     messagebox.showinfo("Login","Successfully login", parent=root)
+                    db.insert_login_history(username, set_login_date, set_login_time)
                     self.get_admin_page()
                     clearAll()
+            
+            elif username and password and designation=="staff":
+                row = db.login_account(username, password, designation)
+                print(row)
+                if row==None:
+                    messagebox.showerror("Error","No Match To Your Inputs Information", parent=root)
+                    clearAll()
+                else:
+                    messagebox.showinfo("Login","Successfully login", parent=root)
+                    db.insert_login_history(username, set_login_date, set_login_time)
+                    self.get_staff_page()
+                    clearAll()
+            
             else:
                 messagebox.showerror("Error","Invalid Inputs", parent=root)
                 clearAll()
         
-
-        def back_page_view():
-            root.withdraw()
-            newWindow = Toplevel()
-            app = StaffHomePageView(newWindow)
 
         # =======================frames==========================
         top_frame = LabelFrame(self.root, bd=1, relief='raised', bg=bg1_color, height=80, pady=5)
         top_frame.pack(side='top', pady=1, fill='x', expand='false')
         bottom_frame = LabelFrame(self.root, padx=5, pady=20, bg=white_color, width=1600, relief='flat')
         bottom_frame.pack(pady=1,)
-
 
         # add staff label
         header2_title = Label(top_frame, 
@@ -282,7 +129,6 @@ class LoginPageView(object):
             fg=green_color, 
             bg=bg1_color)
         header2_title.pack()
-
 
         # first name
         lab_username = Label(bottom_frame, 
@@ -345,6 +191,7 @@ class LoginPageView(object):
             text='Login', 
             bg='gray',
             fg='white', 
+            relief='flat',
             width=10, 
             height=1, 
             font=('arial',12, 'bold'), 
@@ -360,6 +207,7 @@ class LoginPageView(object):
             text='Exit', 
             bg='#72404d', 
             fg='white',
+            relief='flat',
             width=10, 
             height=1, 
             font=('arial',12, 'bold'), 
@@ -367,8 +215,179 @@ class LoginPageView(object):
             pady=4, 
             activeforeground='white',
             activebackground='#4b8598',
-            command=back_page_view)
+            command=self.exit_app)
         exit_app_btn.grid(row=0, column=1, pady=10, padx=2)
+
+
+
+class StaffHomePageView(object):
+
+    def get_customer_page(self):
+        self.newWindow = Toplevel()
+        self.app = CustomerPageView(self.newWindow)
+
+    def get_booking_page(self):
+        self.newWindow = Toplevel()
+        self.app = BookingPageView(self.newWindow)
+
+    def get_order_page(self):
+        self.newWindow = Toplevel()
+        self.app = OrderPageView(self.newWindow) 
+
+    def about_message(self):
+        msg = """
+        Owner: SHALELE PLACE\n
+        App Type: Hotel Management System\n
+        Built Date: September 2021\n
+        Vesion: 1.0\n
+        Developer: Denamse Angono Derkos Tirel\n
+        Email: tirelangono@gmail.com\n"""
+        messagebox.showinfo("About System", msg)
+
+
+    def __init__(self, root):
+        self.root = root
+        self.root.title("SHALELE PLACE")
+        self.root.geometry('1350x700+0+0')
+        self.root.config(bd=0, bg=white_color, relief='flat')
+        self.root.state('zoomed')
+
+        def back_page_view():
+            root.withdraw()
+            newWindow = Toplevel()
+            app = LoginPageView(newWindow)
+
+        # =======================frames==========================
+        top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=5)
+        top_frame.pack(side='top', pady=1, fill='x', expand='false')
+        middle_frame = LabelFrame(self.root, padx=5, pady=2, bg=bg2_color, height=30, width=1600)
+        middle_frame.pack(pady=1, fill='x', expand='false')
+        bottom_frame = LabelFrame(self.root, padx=5, pady=20, bg=white_color, width=1600, relief='flat')
+        bottom_frame.pack(pady=50)
+
+        # labels headers
+        header1_title = Label(top_frame, 
+            text='SHALELE PLACE', 
+            font=('arial', 35, 'bold'),
+            fg=title_color, 
+            bg=bg1_color)
+        header1_title.pack(side=TOP)
+        header2_title = Label(top_frame, 
+            text='Hospitality & Investment Ltd', 
+            font=('arial', 14, 'bold'), 
+            fg=green_color, 
+            bg=bg1_color)
+        header2_title.pack()
+        header3_title = Label(top_frame, 
+            text='No. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.', 
+            font=('arial', 12,), 
+            fg=green_color, 
+            bg=bg1_color)
+        header3_title.pack()
+
+        about_btn = Button(middle_frame, 
+            text="About",  
+            bg='grey',  
+            fg='white',
+            relief='flat',
+            width=14,
+            bd=1,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14),
+            command=self.about_message)
+        about_btn.grid(row=0, column=0, padx=4)
+
+        
+        # inventory_btn = Button(middle_frame, 
+        #     text="Inventory",  
+        #     bg='grey', 
+        #     fg='white',
+        #     relief='flat',
+        #     width=14,
+        #     bd=1,
+        #     activeforeground=white_color,
+        #     activebackground=blue_color,
+        #     font=('arial',14),
+        #     command=self.get_inventory_page)
+        # inventory_btn.grid(row=0, column=1, padx=4)
+
+        exit_btn = Button(middle_frame, 
+            text="Exit",  
+            bg=chocolate_color, 
+            fg=white_color,
+            relief='flat',
+            width=14,
+            bd=1,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14),
+            command=back_page_view)
+        exit_btn.grid(row=0, column=1, padx=4)
+
+
+        booking_btn = Button(bottom_frame,
+            text='Bookings',
+            width=20,
+            height=6,
+            bg=grey_color, 
+            fg=white_color,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14), 
+            command=self.get_booking_page)
+        booking_btn.grid(row=0, column=0, pady=20, padx=30)  
+
+        customer_btn = Button(bottom_frame,
+            text='Customers',
+            width=20,
+            height=6,
+            bg=grey_color, 
+            fg=white_color,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14), 
+            command=self.get_customer_page)
+        customer_btn.grid(row=0, column=1, pady=20, padx=30)  
+
+        order_btn = Button(bottom_frame,
+            text='Orders',
+            width=20,
+            height=6,
+            bg=grey_color, 
+            fg=white_color,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14), 
+            command=self.get_order_page)
+        order_btn.grid(row=0, column=2, pady=20, padx=30) 
+
+        def get_clock_time():
+            timeVar = time.strftime("%I:%M:%S %p") 
+            clock_lab.config(text=timeVar)
+            clock_lab.after(100, get_clock_time)
+            # time_zone = time.strftime("%Z")
+
+        # clock time label
+        clock_lab = Label(bottom_frame, 
+            font=('arial', 20), 
+            fg=chocolate_color, 
+            bg=white_color,)
+        clock_lab.grid(row=1, column=0, columnspan=3, pady=20, padx=5) 
+
+        # date 
+        today = date.today()
+        date_format = today.strftime("%A - %B %d, %Y")
+
+        date_lab = Label(bottom_frame, 
+            text=date_format, 
+            font=('arial', 14), 
+            fg=blue_color, 
+            bg=white_color)
+        date_lab.grid(row=2, column=0, columnspan=3, pady=20, padx=5)
+
+
+        get_clock_time()
 
 
 
@@ -418,17 +437,28 @@ class HomePageView(object):
         self.newWindow = Toplevel()
         self.app = AccountPageView(self.newWindow)
 
+    def get_inventory_page(self):
+        self.newWindow = Toplevel()
+        self.app = InventoryPageView(self.newWindow)
+
+    def get_login_history_page(self):
+        self.newWindow = Toplevel()
+        self.app = LoginHistoryPage(self.newWindow)
+
     def about_message(self):
         msg = """
-        Name: Shalele PLAE Hotel Management System\n
+        Owner: SHALELE PLACE\n
+        App Type: Hotel Management System\n
         Built Date: September 2021\n
-        Vesion: 1.0\n"""
+        Vesion: 1.0\n
+        Developer: Denamse Angono Derkos Tirel\n
+        Email: tirelangono@gmail.com\n"""
         messagebox.showinfo("About System", msg)
 
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
+        self.root.title("SHALELE PLACE")
         self.root.geometry('1350x700+0+0')
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.state('zoomed')
@@ -449,7 +479,7 @@ class HomePageView(object):
 
         # labels headers
         header1_title = Label(top_frame, 
-            text='Shalele PLAE Hotel', 
+            text='SHALELE PLACE', 
             font=('arial', 35, 'bold'), 
             fg=title_color, 
             bg=bg1_color)
@@ -467,23 +497,25 @@ class HomePageView(object):
             bg=bg1_color)
         header3_title.pack()
 
-        about_btn = Button(middle_frame, 
-            text="About",  
+        inventory_btn = Button(middle_frame, 
+            text="Inventory",  
             bg='grey', 
             fg='white',
-            width=16,
+            relief='flat',
+            width=12,
             bd=1,
             activeforeground=white_color,
             activebackground=blue_color,
             font=('arial',14),
-            command=self.about_message)
-        about_btn.grid(row=0, column=0, padx=4)
+            command=self.get_inventory_page)
+        inventory_btn.grid(row=0, column=0, padx=4)
 
         user_btn = Button(middle_frame, 
             text="Account",  
             bg=blue_color, 
             fg=white_color,
-            width=16,
+            relief='flat',
+            width=14,
             bd=1,
             activeforeground=white_color,
             activebackground=chocolate_color,
@@ -494,8 +526,9 @@ class HomePageView(object):
         income_summary_btn = Button(middle_frame, 
             text="Daily Income", 
             bg='#076',
-            fg=white_color, 
-            width=16, 
+            fg=white_color,
+            relief='flat', 
+            width=14, 
             bd=1, 
             activeforeground=white_color,
             activebackground='#4b8598',
@@ -504,10 +537,11 @@ class HomePageView(object):
         income_summary_btn.grid(row=0, column=2, padx=4)
 
         bk_activity_btn = Button(middle_frame, 
-            text="Bookings Activity",  
+            text="Bookings History",  
             bg='#076',
-            fg=white_color, 
-            width=16, 
+            fg=white_color,
+            relief='flat', 
+            width=14, 
             bd=1, 
             activeforeground=white_color,
             activebackground='#4b8598',
@@ -516,10 +550,11 @@ class HomePageView(object):
         bk_activity_btn.grid(row=0, column=3, padx=4)
 
         fd_activity_btn = Button(middle_frame, 
-            text="Foods Activity",  
+            text="Foods History",  
             bg='#076',
-            fg=white_color, 
-            width=16, 
+            fg=white_color,
+            relief='flat', 
+            width=14, 
             bd=1, 
             activeforeground=white_color,
             activebackground='#4b8598',
@@ -528,10 +563,11 @@ class HomePageView(object):
         fd_activity_btn.grid(row=0, column=4, padx=4)
 
         dk_activity_btn = Button(middle_frame, 
-            text="Drinks Activity",  
+            text="Drinks History",  
             bg='#076',
             fg=white_color, 
-            width=16, 
+            relief='flat',
+            width=14, 
             bd=1, 
             activeforeground=white_color,
             activebackground='#4b8598',
@@ -539,17 +575,45 @@ class HomePageView(object):
             command=self.get_drink_activity)
         dk_activity_btn.grid(row=0, column=5, padx=4)
 
-        exit_btn = Button(middle_frame, 
-            text="Exit",  
+        login_history_btn = Button(middle_frame, 
+            text="Login History",  
+            bg=blue_color, 
+            fg=white_color,
+            relief='flat',
+            width=14,
+            bd=1,
+            activeforeground=white_color,
+            activebackground=chocolate_color,
+            font=('arial',14),
+            command=self.get_login_history_page)
+        login_history_btn.grid(row=0, column=6, padx=4)
+
+        about_btn = Button(middle_frame, 
+            text="About",  
+            bg='grey', 
+            fg='white',
+            relief='flat',
+            width=12,
+            bd=1,
+            activeforeground=white_color,
+            activebackground=blue_color,
+            font=('arial',14),
+            command=self.about_message)
+        about_btn.grid(row=0, column=7, padx=4)
+
+        # exit button from admin side
+        exit_btn = Button(self.root, 
+            text="Exit", 
             bg=chocolate_color, 
             fg=white_color,
-            width=16,
+            relief='flat',
+            width=12,
             bd=1,
             activeforeground=white_color,
             activebackground=blue_color,
             font=('arial',14),
             command=back_page)
-        exit_btn.grid(row=0, column=6, padx=4)
+        exit_btn.place(x=613, y=600)
 
 
         room_btn = Button(bottom_frame,
@@ -631,8 +695,8 @@ class DailyIncomePageView(object):
     """docstring for DailyIncomePageView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("600x240+300+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("600x240+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -655,6 +719,7 @@ class DailyIncomePageView(object):
             bg='#72404d', 
             fg='white',
             width=10, 
+            relief='flat',
             height=1, 
             font=('arial',12), 
             bd=1, 
@@ -710,22 +775,21 @@ class DailyIncomePageView(object):
 
 
 
-
-
-
-
 # new page  
 class AccountPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("850x340+250+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("850x360+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
         username = StringVar()
+        mobile = StringVar()
+        dob = StringVar()
         password = StringVar()
         designation = StringVar()
+
 
         def getData(event):
             selected_row = tv.focus()
@@ -733,23 +797,25 @@ class AccountPageView(object):
             global row 
             row = data["values"]
             username.set(row[1])
-            password.set(row[2])
-            designation.set(row[3])
+            mobile.set(row[2])
+            dob.set(row[3])
+            password.set(row[4])
+            designation.set(row[5])
 
         def add_account_data():
-            if entry_username.get()=="" or entry_password.get()=="" or entry_designation.get()=="":
+            if entry_username.get()=="" or entry_mobile.get()=="" or entry_dob.get()=="" or entry_password.get()=="" or entry_designation.get()=="":
                 messagebox.showerror("Error in Inputs", "Please Fill All the Details", parent=root) 
                 return 
-            db.insert_account(entry_username.get(), entry_password.get(), entry_designation.get())
+            db.insert_account(entry_username.get(), entry_mobile.get(), entry_dob.get(), entry_password.get(), entry_designation.get())
             messagebox.showinfo("Success!", "Record Has Been Successfully Saved", parent=root)
             clearAll() 
             displayAll()
 
         def update_account_data():
-            if entry_username.get()=="" or entry_password.get()=="" or entry_designation.get()=="":
+            if entry_username.get()=="" or entry_mobile.get()=="" or entry_dob.get()=="" or entry_password.get()=="" or entry_designation.get()=="":
                 messagebox.showerror("Error in Inputs", "Please Fill All the Details", parent=root) 
                 return 
-            db.update_account(row[0], entry_username.get(), entry_password.get(), entry_designation.get())
+            db.update_account(row[0], entry_username.get(), entry_mobile.get(), entry_dob.get(), entry_password.get(), entry_designation.get())
             messagebox.showinfo("Success!", "Record Has Been Successfully Updated", parent=root)
             clearAll() 
             displayAll()
@@ -762,6 +828,8 @@ class AccountPageView(object):
 
         def clearAll():
             username.set('')
+            mobile.set('')
+            dob.set('')
             password.set('')
             designation.set('')
             displayAll() 
@@ -773,11 +841,12 @@ class AccountPageView(object):
 
         def search_account_data():
             tv.delete(*tv.get_children()) 
-            if entry_username.get() or entry_password.get() or entry_designation.get():
-                for row in db.search_account(entry_username.get(), entry_password.get(), entry_designation.get(),):
+            if entry_username.get() or entry_mobile.get() or entry_dob.get() or entry_password.get() or entry_designation.get():
+                for row in db.search_account(entry_username.get(), entry_mobile.get(), entry_dob.get(), entry_password.get(), entry_designation.get(),):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","No Such Information Found", parent=root)
+                displayAll() 
 
 
         top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
@@ -812,7 +881,7 @@ class AccountPageView(object):
         style.configure("Treeview", 
             background="silver", 
             foreground="#4f234f", 
-            rowheight=22, 
+            rowheight=24, 
             fieldbackground="silver", 
             font=('arial', 14))
         style.map('Treeview', background=[('selected', '#4b8598')], foreground=[('selected', 'white')])
@@ -828,7 +897,7 @@ class AccountPageView(object):
             yscrollcommand=tree_scroll_vertical.set,
             xscrollcommand=tree_scroll_horizontal.set,  
             selectmode="extended",
-            columns=(1,2,3,4))
+            columns=(1,2,3,4,5,6))
         tv.pack()
 
         # configure the Scrollbar 
@@ -839,18 +908,24 @@ class AccountPageView(object):
         tv['columns'] = (
             "ID", 
             "Username", 
-            "Password", 
+            "Mobile",
+            "D.O.B", 
+            "Password",  
             "Designation")
 
         # format our columns
         tv.column("ID", width=80, anchor='center')
         tv.column("Username", width=200, anchor='center')
+        tv.column("Mobile", width=200, anchor='center')
+        tv.column("D.O.B", width=200, anchor='center')
         tv.column("Password", width=200, anchor='center')
         tv.column("Designation", width=200, anchor='center')
 
         # create headings 
         tv.heading('ID', text="ID",)
         tv.heading('Username', text="Username",)
+        tv.heading('Mobile', text="Mobile",)
+        tv.heading('D.O.B', text="D.O.B",)
         tv.heading('Password', text="Password",)
         tv.heading('Designation', text="Designation",)
         tv['show'] = 'headings'
@@ -866,9 +941,9 @@ class AccountPageView(object):
         count = 0 
         for record in db.fetch_account():
             if count%2 == 0:
-                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3]), tags=('evenrow',))
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5]), tags=('evenrow',))
             else: 
-                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3]), tags=('oddrow',))
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5]), tags=('oddrow',))
               # increment counter 
             count +=1
 
@@ -879,7 +954,7 @@ class AccountPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # username
         lab_username = Label(items_fields_frame, 
@@ -898,6 +973,40 @@ class AccountPageView(object):
           textvariable=username)
         entry_username.grid(row=1, column=1) 
 
+        # mobile
+        lab_mobile = Label(items_fields_frame, 
+          text='Mobile: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_mobile.grid(row=2, column=0, sticky='w')
+        entry_mobile = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2, 
+          textvariable=mobile)
+        entry_mobile.grid(row=2, column=1)  
+
+        # dob
+        lab_dob = Label(items_fields_frame, 
+          text='D.O.B (dd/mm/yyyy): ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_dob.grid(row=3, column=0,sticky='w')
+        entry_dob = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=dob)
+        entry_dob.grid(row=3, column=1) 
+
         # password
         lab_password = Label(items_fields_frame, 
           text='Password: ', 
@@ -906,14 +1015,14 @@ class AccountPageView(object):
           font=('arial', 14), 
           fg='grey', 
           bg=white_color)
-        lab_password.grid(row=2, column=0, sticky='w')
+        lab_password.grid(row=4, column=0, sticky='w')
         entry_password = Entry(items_fields_frame, 
           bg='white', 
           width=20, 
           font=('arial',14), 
           bd=2, 
           textvariable=password)
-        entry_password.grid(row=2, column=1)  
+        entry_password.grid(row=4, column=1)  
 
         # designation
         lab_designation = Label(items_fields_frame, 
@@ -923,24 +1032,25 @@ class AccountPageView(object):
           font=('arial', 14), 
           fg='grey', 
           bg=white_color)
-        lab_designation.grid(row=3, column=0, sticky='w')
+        lab_designation.grid(row=5, column=0, sticky='w')
         entry_designation = ttk.Combobox(items_fields_frame, 
           width=19, 
           font=('arial',14), 
           state='readonly', 
           textvariable=designation)
         entry_designation['values'] = ('admin', 'staff')
-        entry_designation.grid(row=3, column=1) 
+        entry_designation.grid(row=5, column=1) 
 
         # btn frame
         btn_frame = Frame(items_fields_frame, padx=10, pady=4, relief='flat', bg=white_color)
-        btn_frame.grid(row=4, column=0, columnspan=2, pady=20)
+        btn_frame.grid(row=6, column=0, columnspan=2, pady=20)
 
         # add btn
         add_btn = Button(btn_frame, 
           text='Add', 
           bg='gray',
-          fg='white', 
+          fg='white',
+          relief='flat', 
           width=6, 
           height=1,
           activeforeground='white',
@@ -955,6 +1065,7 @@ class AccountPageView(object):
           text='Update', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -969,6 +1080,7 @@ class AccountPageView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -983,6 +1095,7 @@ class AccountPageView(object):
           text='Delete', 
           bg='red', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -997,6 +1110,7 @@ class AccountPageView(object):
           text='Search', 
           bg='#4b8598', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -1011,6 +1125,7 @@ class AccountPageView(object):
           text='Exit', 
           bg='#72404d', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -1022,14 +1137,12 @@ class AccountPageView(object):
 
 
 
-
-
 class DrinkActivityView(object):
     """docstring for FoodActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("1000x400+80+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1000x400+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -1095,7 +1208,7 @@ class DrinkActivityView(object):
 
         # labels headers
         header2_title = Label(top_frame, 
-            text='Foods Activity Details', 
+            text='Drinks History Details', 
             font=('arial', 14, 'bold'), 
             fg=green_color, 
             bg=bg1_color)
@@ -1107,6 +1220,7 @@ class DrinkActivityView(object):
             bg='#72404d', 
             fg='white',
             width=6, 
+            relief='flat',
             height=1, 
             font=('arial',12), 
             bd=1, 
@@ -1190,11 +1304,11 @@ class DrinkActivityView(object):
 
         # add staff label
         txt_title = Label(booking_fields, 
-          text='Search Drinks Activity', 
+          text='Search Drinks History', 
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         def get_sum_items():
             for row in db.sum_drink_activity():
@@ -1301,7 +1415,7 @@ class DrinkActivityView(object):
 
         # btn frame
         btn_frame = Frame(booking_fields, padx=10, pady=4, relief='flat', bg=white_color)
-        btn_frame.grid(row=6, column=0, columnspan=3, pady=20)
+        btn_frame.grid(row=6, column=0, columnspan=2, pady=20)
 
         # search btn
         search_btn = Button(btn_frame, 
@@ -1309,6 +1423,7 @@ class DrinkActivityView(object):
           bg='#4b8598', 
           fg='white',
           width=10, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -1323,6 +1438,7 @@ class DrinkActivityView(object):
           bg='gray', 
           fg='white',
           width=10, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -1337,6 +1453,7 @@ class DrinkActivityView(object):
           bg='gray', 
           fg='white',
           width=10, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -1349,6 +1466,7 @@ class DrinkActivityView(object):
         delete_all_btn = Button(btn_frame, 
           text='Delete All', 
           bg='red', 
+          relief='flat',
           fg='white',
           width=10, 
           height=1,
@@ -1368,8 +1486,8 @@ class FoodActivityView(object):
     """docstring for FoodActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("1000x400+80+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1000x400+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
         
@@ -1436,7 +1554,7 @@ class FoodActivityView(object):
 
         # labels headers
         header2_title = Label(top_frame, 
-            text='Foods Activity Details', 
+            text='Foods History Details', 
             font=('arial', 14, 'bold'), 
             fg=green_color, 
             bg=bg1_color)
@@ -1449,6 +1567,7 @@ class FoodActivityView(object):
             fg='white',
             width=6, 
             height=1, 
+            relief='flat',
             font=('arial',12), 
             bd=1, 
             activeforeground='white',
@@ -1531,11 +1650,11 @@ class FoodActivityView(object):
 
         # add staff label
         txt_title = Label(booking_fields, 
-          text='Search Foods Activity', 
+          text='Search Foods History', 
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         def get_sum_items():
             for row in db.sum_food_activity():
@@ -1642,13 +1761,14 @@ class FoodActivityView(object):
 
         # btn frame
         btn_frame = Frame(booking_fields, padx=10, pady=4, relief='flat', bg=white_color)
-        btn_frame.grid(row=6, column=0, columnspan=3, pady=20)
+        btn_frame.grid(row=6, column=0, columnspan=2, pady=20)
 
         # search btn
         search_btn = Button(btn_frame, 
           text='Search', 
           bg='#4b8598', 
           fg='white',
+          relief='flat',
           width=10, 
           height=1, 
           font=('arial',12), 
@@ -1663,6 +1783,7 @@ class FoodActivityView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=10, 
           height=1,
           activeforeground='white',
@@ -1678,6 +1799,7 @@ class FoodActivityView(object):
           bg='gray', 
           fg='white',
           width=10, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -1691,6 +1813,7 @@ class FoodActivityView(object):
           text='Delete All', 
           bg='red', 
           fg='white',
+          relief='flat',
           width=10, 
           height=1,
           activeforeground='white',
@@ -1707,8 +1830,8 @@ class BookingActivityView(object):
     """docstring for BookingActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("1200x480+70+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1200x480+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
         
@@ -1788,7 +1911,7 @@ class BookingActivityView(object):
 
         # labels headers
         header2_title = Label(top_frame, 
-            text='Bookings Activity Details', 
+            text='Bookings History Details', 
             font=('arial', 14, 'bold'), 
             fg=green_color, 
             bg=bg1_color)
@@ -1800,6 +1923,7 @@ class BookingActivityView(object):
             bg='#72404d', 
             fg='white',
             width=6, 
+            relief='flat',
             height=1, 
             font=('arial',12), 
             bd=1, 
@@ -1896,11 +2020,11 @@ class BookingActivityView(object):
 
         # add staff label
         txt_title = Label(booking_fields, 
-          text='Search Booking Activity', 
+          text='Search Booking History', 
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w') 
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w') 
 
         def get_sum_items():
             for row in db.sum_booking_activity():
@@ -2088,6 +2212,7 @@ class BookingActivityView(object):
           fg='white',
           width=10, 
           height=1, 
+          relief='flat',
           font=('arial',12), 
           bd=2, 
           activeforeground='white',
@@ -2100,6 +2225,7 @@ class BookingActivityView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=10, 
           height=1,
           activeforeground='white',
@@ -2114,6 +2240,7 @@ class BookingActivityView(object):
           text='Delete One', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=10, 
           height=1,
           activeforeground='white',
@@ -2130,6 +2257,7 @@ class BookingActivityView(object):
           fg='white',
           width=10, 
           height=1,
+          relief='flat',
           activeforeground='white',
           activebackground='#4b8598', 
           font=('arial',12), 
@@ -2147,8 +2275,8 @@ class BookingActivityView(object):
 class RoomPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("850x340+250+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("850x340+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -2208,6 +2336,7 @@ class RoomPageView(object):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","No Such Information Found", parent=root)
+                displayAll() 
 
 
         top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
@@ -2235,7 +2364,6 @@ class RoomPageView(object):
         count_items.place(x=20, y=5)
 
         get_count()
-
 
         # rooms items
         items_fields_frame = LabelFrame(bottom_frame, pady=5, padx=10, bg=white_color, width=500,)
@@ -2287,13 +2415,13 @@ class RoomPageView(object):
 
         # format our columns
         tv.column("ID", width=80, anchor='center')
-        tv.column("Room Number", width=100, anchor='center')
-        tv.column("Room Type", width=100, anchor='center')
-        tv.column("Room Price", width=150, anchor='center')
+        tv.column("Room Number", width=160, anchor='center')
+        tv.column("Room Type", width=200, anchor='center')
+        tv.column("Room Price", width=200, anchor='center')
 
         # create headings 
         tv.heading('ID', text="ID",)
-        tv.heading('Room Number', text="Room Number",)
+        tv.heading('Room Number', text="Room No",)
         tv.heading('Room Type', text="Room Type",)
         tv.heading('Room Price', text="Room Price",)
         tv['show'] = 'headings'
@@ -2322,11 +2450,11 @@ class RoomPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # room number
         lab_room_number = Label(items_fields_frame, 
-          text='Room Number: ', 
+          text='Room No: ', 
           padx=2, 
           pady=2, 
           font=('arial', 14), 
@@ -2350,12 +2478,12 @@ class RoomPageView(object):
           fg='grey', 
           bg=white_color)
         lab_room_type.grid(row=2, column=0, sticky='w')
-        entry_room_type = ttk.Combobox(items_fields_frame, 
-          width=19, 
+        entry_room_type = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
           font=('arial',14), 
-          state='readonly', 
+          bd=2, 
           textvariable=room_type)
-        entry_room_type['values'] = ('Single', 'Double', 'Hall')
         entry_room_type.grid(row=2, column=1) 
 
         # room price
@@ -2385,6 +2513,7 @@ class RoomPageView(object):
           bg='gray',
           fg='white', 
           width=6, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -2398,6 +2527,7 @@ class RoomPageView(object):
           text='Update', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -2412,6 +2542,7 @@ class RoomPageView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -2426,6 +2557,7 @@ class RoomPageView(object):
           text='Delete', 
           bg='red', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -2440,6 +2572,7 @@ class RoomPageView(object):
           text='Search', 
           bg='#4b8598', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -2455,6 +2588,7 @@ class RoomPageView(object):
           bg='#72404d', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -2469,8 +2603,8 @@ class RoomPageView(object):
 class FoodPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("750x300+250+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("750x300+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -2526,6 +2660,7 @@ class FoodPageView(object):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","No Such Information Found", parent=root)
+                display_food_All()
 
 
         top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
@@ -2636,7 +2771,7 @@ class FoodPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # Food Name
         lab_food_type = Label(items_fields_frame, 
@@ -2680,6 +2815,7 @@ class FoodPageView(object):
         add_btn = Button(btn_frame, 
           text='Add', 
           bg='gray',
+          relief='flat',
           fg='white', 
           width=6, 
           height=1,
@@ -2694,6 +2830,7 @@ class FoodPageView(object):
         update_btn = Button(btn_frame, 
           text='Update', 
           bg='gray',
+          relief='flat',
           fg='white', 
           width=6, 
           height=1,
@@ -2708,6 +2845,7 @@ class FoodPageView(object):
         clear_btn = Button(btn_frame, 
           text='Clear', 
           bg='gray', 
+          relief='flat',
           fg='white',
           width=6, 
           height=1,
@@ -2723,6 +2861,7 @@ class FoodPageView(object):
           text='Delete', 
           bg='red', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -2737,6 +2876,7 @@ class FoodPageView(object):
           text='Search', 
           bg='#4b8598', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -2751,6 +2891,7 @@ class FoodPageView(object):
           text='Exit', 
           bg='#72404d', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -2767,8 +2908,8 @@ class FoodPageView(object):
 class DrinkPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("750x300+250+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("750x300+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -2824,6 +2965,7 @@ class DrinkPageView(object):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","No Such Information Found",parent=root)
+                display_drink_All()
 
         top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
         top_frame.pack(side='top', pady=1, fill='x', expand='false')
@@ -2934,7 +3076,7 @@ class DrinkPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # Food Name
         lab_drink_type = Label(items_fields_frame, 
@@ -2979,6 +3121,7 @@ class DrinkPageView(object):
           text='Add', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -2994,6 +3137,7 @@ class DrinkPageView(object):
           bg='gray',
           fg='white', 
           width=6, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -3006,6 +3150,7 @@ class DrinkPageView(object):
         clear_btn = Button(btn_frame, 
           text='Clear', 
           bg='gray', 
+          relief='flat',
           fg='white',
           width=6, 
           height=1,
@@ -3023,6 +3168,7 @@ class DrinkPageView(object):
           fg='white',
           width=6, 
           height=1,
+          relief='flat',
           activeforeground='white',
           activebackground='#4b8598', 
           font=('arial',12), 
@@ -3036,6 +3182,7 @@ class DrinkPageView(object):
           bg='#4b8598', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -3050,6 +3197,7 @@ class DrinkPageView(object):
           bg='#72404d', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -3064,8 +3212,8 @@ class DrinkPageView(object):
 class CustomerPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("950x340+200+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("950x340+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -3127,6 +3275,7 @@ class CustomerPageView(object):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","Nothing Found", parent=root)
+                displayAll()
 
         top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
         top_frame.pack(side='top', pady=1, fill='x', expand='false')
@@ -3199,22 +3348,22 @@ class CustomerPageView(object):
         tv['columns'] = (
             "ID", 
             "First Name", 
-            "Last Name", 
+            "Surname", 
             "Mobile",
             "Email")
 
         # format our columns
         tv.column("ID", width=80, anchor='center')
         tv.column("First Name", width=200, anchor='center')
-        tv.column("Last Name", width=200, anchor='center')
+        tv.column("Surname", width=200, anchor='center')
         tv.column("Mobile", width=180, anchor='center')
         tv.column("Email", width=250, anchor='center')
 
         # create headings 
         tv.heading('ID', text="ID",)
         tv.heading('First Name', text="First Name",)
-        tv.heading('Last Name', text="Last Name",)
-        tv.heading('Mobile', text="Mobile",)
+        tv.heading('Surname', text="Surname",)
+        tv.heading('Mobile', text="Phone no",)
         tv.heading('Email', text="Email",)
         tv['show'] = 'headings'
         tv.bind("<ButtonRelease-1>", getData)
@@ -3241,7 +3390,7 @@ class CustomerPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # fname
         lab_first_name = Label(items_fields_frame, 
@@ -3262,7 +3411,7 @@ class CustomerPageView(object):
 
         # lname
         lab_last_name = Label(items_fields_frame, 
-          text='Last Name: ', 
+          text='Surname: ', 
           padx=2, 
           pady=2, 
           font=('arial', 14), 
@@ -3279,7 +3428,7 @@ class CustomerPageView(object):
 
         # mobile
         lab_mobile = Label(items_fields_frame, 
-          text='Mobile: ', 
+          text='Phone no: ', 
           padx=2, 
           pady=2, 
           font=('arial', 14), 
@@ -3321,6 +3470,7 @@ class CustomerPageView(object):
           bg='gray',
           fg='white', 
           width=6, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -3334,6 +3484,7 @@ class CustomerPageView(object):
           text='Update', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -3348,6 +3499,7 @@ class CustomerPageView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -3361,6 +3513,7 @@ class CustomerPageView(object):
         delete_btn = Button(btn_frame, 
           text='Delete', 
           bg='red', 
+          relief='flat',
           fg='white',
           width=6, 
           height=1,
@@ -3377,6 +3530,7 @@ class CustomerPageView(object):
           bg='#4b8598', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -3390,6 +3544,7 @@ class CustomerPageView(object):
           text='Exit', 
           bg='#72404d', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -3401,14 +3556,13 @@ class CustomerPageView(object):
 
 
 
-
 # new page  
 class BookingPageView(object):
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("1200x520+80+100")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1200x640+20+10")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
 
@@ -3423,6 +3577,14 @@ class BookingPageView(object):
         discount = StringVar() 
         total_cost = StringVar()
 
+        address = StringVar()
+        email = StringVar()
+        car_reg_no = StringVar()
+        means_of_id = StringVar()
+        traveling_from = StringVar()
+        traveling_to = StringVar()
+        party = StringVar()
+
         bill_ref = StringVar()
         search_customer_info = StringVar()
 
@@ -3432,7 +3594,7 @@ class BookingPageView(object):
         def get_receipt_page_view():
             newWindow = Toplevel()
             newWindow.title("Shalele PLAE Hotel")
-            newWindow.geometry("810x500+200+100")
+            # newWindow.geometry("300x460+100+80")
             newWindow.config(bd=0, bg=white_color, relief='flat')
             newWindow.resizable(0, 0)
 
@@ -3461,59 +3623,73 @@ class BookingPageView(object):
                 height=1, 
                 font=('arial',12), 
                 bd=1, 
+                relief='flat',
                 activeforeground='white',
                 activebackground='#72404d',
                 command=get_receipt_file)
-            save_btn.place(x=10, y=2)
+            save_btn.pack(pady=5)
 
 
             scrol = Scrollbar(bottom_frame, orient='vertical')
             scrol.pack(fill='y', side='right')
 
             textarea = Text(bottom_frame, 
-                font=('arial',14),
-                state='normal', 
+                font=('arial',12),
+                state='normal',
+                pady=10,
                 height=20, 
-                width=70)
+                width=40)
             textarea.focus()
-            textarea.pack()
+            textarea.pack(anchor='center',)
             scrol.config(command=textarea.yview)
 
-            get_bill_ref = random.randint(100000, 99999999)
-            # bill_ref.set(get_bill_ref)
-
             textarea.get(1.0, END)
-            textarea.insert('end', f"\t\t\tShalele PLAE Hotel Receipt\n")
-            textarea.insert('end', f"\n\t\t\tHospitality & Investment Ltd\n\n\tNo. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.\n")
+            textarea.insert('end', f"SHALELE HOSPITALITY & INVESTMENT Ltd\n")
+            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Goverment \nSecretarial. Kastsina.\n")
             textarea.insert('end', '\nDate: '+str(time.strftime("%d/%m/%y")))
-            textarea.insert('end', '\nBill Ref: '+str(get_bill_ref))
+            textarea.insert('end', '\nBill Ref: '+str(entry_bill_ref.get())) 
+            textarea.insert('end', '\n')
+            if entry_first_name.get():
+                textarea.insert('end', '\nFirst name: '+entry_first_name.get())
+            if entry_last_name.get():
+                textarea.insert('end', '\nSurname: '+entry_last_name.get())
+            if entry_mobile.get():
+                textarea.insert('end', '\nPhone no: '+entry_mobile.get())
+            if entry_address.get():
+                textarea.insert('end', '\nAddress: '+entry_address.get())
+            if entry_email.get():
+                textarea.insert('end', '\nEmail: '+entry_email.get())
+            if entry_car_reg_no.get():
+                textarea.insert('end', '\nCar Reg no: '+entry_car_reg_no.get())
+            if entry_means_of_id.get():
+                textarea.insert('end', '\nMeans of ID: '+entry_means_of_id.get())
+            if entry_traveling_from.get():
+                textarea.insert('end', '\nTraveling from: '+entry_traveling_from.get())
+            if entry_traveling_to.get():
+                textarea.insert('end', '\nTraveling To: '+entry_traveling_to.get())
             if entry_room_number.get():
-                textarea.insert('end', '\nHOTEL RESERVATION\n')
-                textarea.insert('end', '\nRoom Number: '+entry_room_number.get())
+                textarea.insert('end', '\nRoom No: '+entry_room_number.get())
             if entry_room_type.get():
-                textarea.insert('end', '\nRoom Type:   '+entry_room_type.get())
+                textarea.insert('end', '\nRoom Type: '+entry_room_type.get())
             if entry_room_price.get():
                 textarea.insert('end', '\nRoom Price: ₦'+entry_room_price.get())
             if entry_check_in_date.get():
-                textarea.insert('end', '\nCheck in:    '+entry_check_in_date.get())
+                textarea.insert('end', '\nDate of Arrival: '+entry_check_in_date.get())
             if entry_check_out_date.get():
-                textarea.insert('end', '\nCheck out:   '+entry_check_out_date.get())
+                textarea.insert('end', '\nDate of Departure: '+entry_check_out_date.get())
+            if entry_party.get():
+                textarea.insert('end', '\nParty (No of person): '+entry_party.get())
             if entry_discount.get():
                 textarea.insert('end', '\nDiscount (%): '+entry_discount.get())
             if entry_total_cost.get():
-                textarea.insert('end', '\nTotal Cost: ₦'+entry_total_cost.get())        
-            if entry_first_name.get():
-                textarea.insert('end', '\nFirst Name: '+entry_first_name.get())
-            if entry_last_name.get():
-                textarea.insert('end', '\nLast Name:  '+entry_last_name.get())
-            if entry_mobile.get():
-                textarea.insert('end', '\nMobile:     '+entry_mobile.get())
+                textarea.insert('end', '\nTotal Cost: ₦'+entry_total_cost.get())
             textarea.insert('end', '\n\n')
             textarea.get(END, 1.0)
 
+
         def get_receipt_file():
             q = textarea.get("1.0", "end-1c")
-            filename = tempfile.mktemp(".txt")
+            filename = tempfile.mktemp(f"{entry_last_name.get()}"+".txt")
             open (filename, "w", encoding="utf-8").write(q)
             os.startfile(filename, 'print')
             # Bellow is call to print text from your_widget_name textbox
@@ -3528,13 +3704,22 @@ class BookingPageView(object):
             fname.set(row[1])
             lname.set(row[2])
             mobile.set(row[3])
-            room_number.set(row[4])
-            room_type.set(row[5])
-            room_price.set(row[6])
-            check_in_date.set(row[7])
-            check_out_date.set(row[8])
-            discount.set(row[9])
-            total_cost.set(row[10])
+            address.set(row[4])
+            email.set(row[5])
+            car_reg_no.set(row[6])
+            means_of_id.set(row[7])
+            traveling_from.set(row[8])
+            traveling_to.set(row[9])
+            room_number.set(row[10])
+            room_type.set(row[11])
+            room_price.set(row[12])
+            check_in_date.set(row[13])
+            check_out_date.set(row[14])
+            party.set(row[15])
+            discount.set(row[16])
+            total_cost.set(row[17])
+            bill_ref.set(row[18])
+
 
         def displayAll():
             tv.delete(*tv.get_children()) 
@@ -3559,11 +3744,13 @@ class BookingPageView(object):
         created_date = today.strftime("%B %d, %Y")
         created_time = str(time.strftime("%I:%M:%S %p"))
 
+    # entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_address.get(), entry_email.get(), entry_car_reg_no.get(), entry_means_of_id.get(), entry_traveling_from.get(), entry_traveling_to.get(), entry_room_number.get(), entry_room_type.get(), entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_party.get(), entry_discount.get(), entry_total_cost.get()
+        
         def add_booking_data():
-            if entry_first_name.get()=="" or entry_last_name.get()=="" or entry_mobile.get()=="" or entry_room_number.get()=="" or entry_room_type.get()=="" or  entry_room_price.get() =="" or entry_check_in_date.get()=="" or entry_check_out_date.get()=="" or entry_discount.get()=="" or entry_total_cost.get()=="":
+            if entry_first_name.get()=='' or entry_last_name.get()=='' or entry_mobile.get()=='' or entry_address.get()=='' or entry_email.get()=='' or entry_means_of_id.get()=='' or entry_traveling_from.get()=='' or entry_traveling_to.get()=='' or entry_room_number.get()=='' or entry_room_type.get()=='' or entry_room_price.get()=='' or entry_check_in_date.get()=='' or entry_check_out_date.get()=='' or entry_total_cost.get()=='' or entry_bill_ref.get()=='':
                 messagebox.showerror("Error in Inputs", "Please Fill All the Details", parent=root) 
                 return 
-            db.insert_booking(entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_room_number.get(), entry_room_type.get(),  entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_discount.get(), entry_total_cost.get())
+            db.insert_booking(entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_address.get(), entry_email.get(), entry_car_reg_no.get(), entry_means_of_id.get(), entry_traveling_from.get(), entry_traveling_to.get(), entry_room_number.get(), entry_room_type.get(), entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_party.get(), entry_discount.get(), entry_total_cost.get(), entry_bill_ref.get())
             db.insert_customer(entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), 'NA')
             db.insert_booking_activity(entry_mobile.get(), entry_room_number.get(), entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_discount.get(), entry_total_cost.get(), created_date, created_time)
             messagebox.showinfo("Success!", "Record Has Been Successfully Saved", parent=root)
@@ -3572,21 +3759,22 @@ class BookingPageView(object):
 
 
         def update_booking_data(): 
-            if entry_first_name.get()=="" or entry_last_name.get()=="" or entry_mobile.get()=="" or entry_room_number.get()=="" or entry_room_type.get()=="" or  entry_room_price.get() =="" or entry_check_in_date.get()=="" or entry_check_out_date.get()=="" or entry_discount.get()=="" or entry_total_cost.get()=="":
+            if entry_first_name.get()=='' or entry_last_name.get()=='' or entry_mobile.get()=='' or entry_address.get()=='' or entry_email.get()=='' or entry_means_of_id.get()=='' or entry_traveling_from.get()=='' or entry_traveling_to.get()=='' or entry_room_number.get()=='' or entry_room_type.get()=='' or entry_room_price.get()=='' or entry_check_in_date.get()=='' or entry_check_out_date.get()=='' or entry_total_cost.get()=='' or entry_bill_ref.get()=='':
                 messagebox.showerror("Error in Inputs", "No Data Found to Update",parent=root) 
                 return 
-            db.update_booking(row[0], entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_room_number.get(), entry_room_type.get(),  entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_discount.get(), entry_total_cost.get())
+            db.update_booking(row[0], entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_address.get(), entry_email.get(), entry_car_reg_no.get(), entry_means_of_id.get(), entry_traveling_from.get(), entry_traveling_to.get(), entry_room_number.get(), entry_room_type.get(), entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_party.get(), entry_discount.get(), entry_total_cost.get(), entry_bill_ref.get())
             messagebox.showinfo("Success!", "Record Has Been Successfully Updated",parent=root)
             clearAll() 
             displayAll()
 
         def search_booking_data():
             tv.delete(*tv.get_children()) 
-            if  entry_first_name.get() or entry_last_name.get() or entry_mobile.get() or entry_room_number.get() or entry_room_type.get() or entry_room_price.get() or entry_check_in_date.get() or entry_check_out_date.get() or entry_discount.get() or entry_total_cost.get(): 
-                for row in db.search_booking(entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_room_number.get(), entry_room_type.get(),  entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_discount.get(), entry_total_cost.get()):
+            if  entry_first_name.get() or entry_last_name.get() or entry_mobile.get() or entry_address.get() or entry_email.get() or entry_car_reg_no.get() or entry_means_of_id.get() or entry_traveling_from.get() or entry_traveling_to.get() or entry_room_number.get() or entry_room_type.get() or entry_room_price.get() or entry_check_in_date.get() or entry_check_out_date.get() or entry_party.get() or entry_discount.get() or entry_total_cost.get() or entry_bill_ref.get(): 
+                for row in db.search_booking(entry_first_name.get(), entry_last_name.get(), entry_mobile.get(), entry_address.get(), entry_email.get(), entry_car_reg_no.get(), entry_means_of_id.get(), entry_traveling_from.get(), entry_traveling_to.get(), entry_room_number.get(), entry_room_type.get(), entry_room_price.get(), entry_check_in_date.get(), entry_check_out_date.get(), entry_party.get(), entry_discount.get(), entry_total_cost.get(), entry_bill_ref.get()):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","Nothing Found", parent=root)
+                displayAll()
 
 
         def delete_booking_data():
@@ -3599,11 +3787,18 @@ class BookingPageView(object):
             fname.set('')
             lname.set('')
             mobile.set('')
+            address.set('')
+            email.set('')
+            car_reg_no.set('')
+            means_of_id.set('')
+            traveling_from.set('')
+            traveling_to.set('')
             room_number.set('')
             room_type.set('')
             room_price.set('')
             check_in_date.set('')
             check_out_date.set('')
+            party.set('')
             discount.set('')
             total_cost.set('')
             displayAll()
@@ -3642,6 +3837,7 @@ class BookingPageView(object):
                         fname.set(x[1])
                         lname.set(x[2])
                         mobile.set(x[3])
+                        email.set(x[4])
                         search_fname2.config(text=x[1])
                         search_lname2.config(text=x[2])
                         search_customer_mobile2.config(text=x[3])
@@ -3679,6 +3875,7 @@ class BookingPageView(object):
             bg='#72404d', 
             fg='white',
             width=10, 
+            relief='flat',
             height=1, 
             font=('arial',12), 
             bd=1, 
@@ -3702,7 +3899,7 @@ class BookingPageView(object):
         '''
 
         customer_detail_frame = LabelFrame(list_frame, bg=white_color, width=300)
-        customer_detail_frame.pack(side='top', anchor='w')
+        customer_detail_frame.pack(side='top', anchor='w',  fill='x')
 
         # search entry
         entry_search = Entry(customer_detail_frame, 
@@ -3728,7 +3925,7 @@ class BookingPageView(object):
 
         # right card_frame
         card_frame = Frame(customer_detail_frame, bg=white_color, height=300)
-        card_frame.grid(row=1, column=0,  columnspan=2, sticky='w', pady=2)
+        card_frame.grid(row=1, column=0, sticky='w', pady=2)
 
         # title
         title_frame0 = Label(card_frame, 
@@ -3755,7 +3952,7 @@ class BookingPageView(object):
 
         # last name
         search_lname1 = Label(card_frame, 
-            text='Last Name: ', 
+            text='Surname: ', 
             font=('arial', 14), 
             fg='grey', 
             bg=white_color)
@@ -3770,7 +3967,7 @@ class BookingPageView(object):
 
         # mobile
         search_customer_mobile1 = Label(card_frame, 
-            text='Mobile: ', 
+            text='Phone no: ', 
             font=('arial', 14), 
             fg='grey', 
             bg=white_color)
@@ -3786,10 +3983,33 @@ class BookingPageView(object):
         ################frames#################
 
         '''
+        get_bill_ref = random.randint(100000, 99999999)
+        bill_ref.set(get_bill_ref)
+
+        # right card_frame
+        bill_ref_frame = LabelFrame(customer_detail_frame, bg=white_color, height=300)
+        bill_ref_frame.grid(row=1, column=2,  rowspan=2, sticky='w', pady=2, padx=20)
+
+        # ref_number
+        lab_bill_ref = Label(bill_ref_frame, 
+            text='Bill Ref: ', 
+            font=('arial', 14), 
+            fg='red', 
+            bg=white_color)
+        lab_bill_ref.grid(row=0, column=0, sticky='w')
+
+        # ref_number
+        entry_bill_ref = Entry(bill_ref_frame, 
+            bg='white', 
+            width=20, 
+            font=('arial',14), 
+            bd=2, 
+            textvariable=bill_ref)
+        entry_bill_ref.grid(row=1, column=0, sticky='w')
 
         # list frame
         tree_frame = Frame(list_frame, bg=white_color)
-        tree_frame.pack(pady=5)
+        tree_frame.pack(pady=10)
 
         # styling
         style = ttk.Style(root)
@@ -3797,7 +4017,7 @@ class BookingPageView(object):
         style.configure("Treeview", 
             background="silver", 
             foreground="#4f234f", 
-            rowheight=22, 
+            rowheight=32, 
             fieldbackground="silver", 
             font=('arial', 14))
         style.map('Treeview', background=[('selected', '#4b8598')], foreground=[('selected', 'white')])
@@ -3813,7 +4033,7 @@ class BookingPageView(object):
             yscrollcommand=tree_scroll_vertical.set,
             xscrollcommand=tree_scroll_horizontal.set,  
             selectmode="extended",
-            columns=(1,2,3,4,5,6,7,8,9,10,11))
+            columns=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19))
         tv.pack()
 
         # configure the Scrollbar 
@@ -3823,41 +4043,65 @@ class BookingPageView(object):
         # columns 
         tv['columns'] = (
             "ID", 
-            "First Name",
-            "Last Name",
-            "Mobile",
-            "Room Number",
-            "Room Type",
-            "Room Price",
-            "Check In Date",
-            "Check Out Date",
+            "FirstName",
+            "Surname",
+            "PhoneNo",
+            "Address",
+            "Email",
+            "CarRegNo",
+            "MeansOfID",
+            "TravelingFrom",
+            "TravelingTo",
+            "RoomNumber",
+            "RoomType",
+            "RoomPrice",
+            "CheckInDate",
+            "CheckOutDate",
+            "Party",
             "Discount (%)",
-            "Total Cost",)
+            "Total Cost",
+            "Bill Ref")
 
         # format our columns
         tv.column("ID", width=90, anchor='center')
-        tv.column("First Name", width=200, anchor='center')
-        tv.column("Last Name", width=200, anchor='center')
-        tv.column("Mobile", width=200, anchor='center')
-        tv.column("Room Number", width=160, anchor='center')
-        tv.column("Room Type", width=160, anchor='center')
-        tv.column("Room Price", width=200, anchor='center')
-        tv.column("Check In Date", width=200, anchor='center')
-        tv.column("Check Out Date", width=200, anchor='center')
-        tv.column("Discount (%)", width=100, anchor='center')
+        tv.column("FirstName", width=200, anchor='center')
+        tv.column("Surname", width=200, anchor='center')
+        tv.column("PhoneNo", width=200, anchor='center')
+        tv.column("Address", width=240, anchor='center')
+        tv.column("Email", width=200, anchor='center')
+        tv.column("CarRegNo", width=200, anchor='center')
+        tv.column("MeansOfID", width=200, anchor='center')
+        tv.column("TravelingFrom", width=200, anchor='center')
+        tv.column("TravelingTo", width=200, anchor='center')
+        tv.column("RoomNumber", width=200, anchor='center')
+        tv.column("RoomType", width=200, anchor='center')
+        tv.column("RoomPrice", width=200, anchor='center')
+        tv.column("CheckInDate", width=200, anchor='center')
+        tv.column("CheckOutDate", width=200, anchor='center')
+        tv.column("Party", width=200, anchor='center')
+        tv.column("Discount (%)", width=200, anchor='center')
         tv.column("Total Cost", width=200, anchor='center')
+        tv.column("Bill Ref", width=200, anchor='center')
         # create headings 
         tv.heading('ID', text="ID",)
-        tv.heading('First Name', text="First Name",)
-        tv.heading('Last Name', text="Last Name",)
-        tv.heading('Mobile', text="Mobile",)
-        tv.heading('Room Number', text="Room Number",)
-        tv.heading('Room Type', text="Room Type",)
-        tv.heading('Room Price', text="Room Price",)
-        tv.heading('Check In Date', text="Check In Date",)
-        tv.heading('Check Out Date', text="Check Out Date",)
+        tv.heading('FirstName', text="First Name",)
+        tv.heading('Surname', text="Surname",)
+        tv.heading('PhoneNo', text="Phone no",)
+        tv.heading('Address', text="Address",)
+        tv.heading('Email', text="Email",)
+        tv.heading('CarRegNo', text="Car Reg No",)
+        tv.heading('MeansOfID', text="Means of ID",)
+        tv.heading('TravelingFrom', text="Traveling From",)
+        tv.heading('TravelingTo', text="Traveling To",)
+        tv.heading('RoomNumber', text="Room no",)
+        tv.heading('RoomType', text="Room Type",)
+        tv.heading('RoomPrice', text="Room Price",)
+        tv.heading('CheckInDate', text="Date of Arrival",)
+        tv.heading('CheckOutDate', text="Date of Departure",)
+        tv.heading('Party', text="Party (No of person)",)
         tv.heading('Discount (%)', text="Discount (%)",)
         tv.heading('Total Cost', text="Total Cost",)
+        tv.heading('Bill Ref', text="Bill Ref",)
         tv['show'] = 'headings'
         tv.bind("<ButtonRelease-1>", getData)
         tv.pack(fill='x')
@@ -3872,9 +4116,9 @@ class BookingPageView(object):
 
         for record in db.fetch_booking():
             if count%2 == 0:
-                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5],record[6],record[7],record[8],record[9],record[10],), tags=('evenrow',))
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5],record[6],record[7],record[8],record[9],record[10],record[11],record[12],record[13],record[14],record[15],record[16],record[17],record[18]), tags=('evenrow',))
             else: 
-                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5],record[6],record[7],record[8],record[9],record[10],), tags=('oddrow',))
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0],record[1],record[2],record[3],record[4],record[5],record[6],record[7],record[8],record[9],record[10],record[11],record[12],record[13],record[14],record[15],record[16],record[17],record[18]), tags=('oddrow',))
             # increment counter 
             count +=1 
 
@@ -3887,6 +4131,7 @@ class BookingPageView(object):
             height=1, 
             font=('arial',12), 
             bd=1, 
+            relief='flat',
             activeforeground='white',
             activebackground='#72404d',
             command=get_receipt_page_view)
@@ -3895,191 +4140,309 @@ class BookingPageView(object):
         # add staff label
         txt_title = Label(booking_fields, 
           text='Add New Booking', 
-          font=('arial', 18), 
+          font=('arial', 16,'bold'), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
-
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # fname
         lab_first_name = Label(booking_fields, 
           text='First Name: ', 
           padx=2, 
           pady=2, 
-          font=('arial', 14), 
+          font=('arial', 12, 'bold'), 
           fg='grey', 
           bg=white_color)
         lab_first_name.grid(row=1, column=0,sticky='w')
         entry_first_name = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial', 12, 'bold'),
           bd=2,
           textvariable=fname)
         entry_first_name.grid(row=1, column=1) 
 
         # lname
         lab_last_name = Label(booking_fields, 
-          text='Last Name: ', 
+          text='Surname: ', 
           padx=2, 
           pady=2, 
-          font=('arial', 14), 
+          font=('arial', 12, 'bold'), 
           fg='grey', 
           bg=white_color)
         lab_last_name.grid(row=2, column=0, sticky='w')
         entry_last_name = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12, 'bold'), 
           bd=2,
           textvariable=lname)
         entry_last_name.grid(row=2, column=1)  
 
         # mobile
         lab_mobile = Label(booking_fields, 
-          text='Mobile: ', 
+          text='Phone no: ', 
           padx=2, 
           pady=2, 
-          font=('arial', 14), 
+          font=('arial', 12, 'bold'), 
           fg='grey', 
           bg=white_color)
         lab_mobile.grid(row=3, column=0, sticky='w')
         entry_mobile = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12, 'bold'), 
           bd=2, 
           textvariable=mobile)
         entry_mobile.grid(row=3, column=1) 
 
-        # room_number
-        lab_room_number = Label(booking_fields, 
-          text='Room Number: ', 
+        # address
+        lab_address = Label(booking_fields, 
+          text='Address: ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial', 12, 'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_room_number.grid(row=4, column=0, sticky='w')
+        lab_address.grid(row=4, column=0,sticky='w')
+        entry_address = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2,
+          textvariable=address)
+        entry_address.grid(row=4, column=1) 
+
+        # email
+        lab_email = Label(booking_fields, 
+          text='Email: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 12, 'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_email.grid(row=5, column=0, sticky='w')
+        entry_email = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2,
+          textvariable=email)
+        entry_email.grid(row=5, column=1)  
+
+        # car_reg_no
+        lab_car_reg_no = Label(booking_fields, 
+          text='Car Reg No: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 12, 'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_car_reg_no.grid(row=6, column=0, sticky='w')
+        entry_car_reg_no = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2, 
+          textvariable=car_reg_no)
+        entry_car_reg_no.grid(row=6, column=1) 
+
+        # means_of_id
+        lab_means_of_id = Label(booking_fields, 
+          text='Means of ID: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 12, 'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_means_of_id.grid(row=7, column=0,sticky='w')
+        entry_means_of_id = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2,
+          textvariable=means_of_id)
+        entry_means_of_id.grid(row=7, column=1) 
+
+        # traveling_from
+        lab_traveling_from = Label(booking_fields, 
+          text='Traveling From: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 12, 'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_traveling_from.grid(row=8, column=0, sticky='w')
+        entry_traveling_from = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2,
+          textvariable=traveling_from)
+        entry_traveling_from.grid(row=8, column=1)  
+
+        # traveling_to
+        lab_traveling_to = Label(booking_fields, 
+          text='Traveling To: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 12, 'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_traveling_to.grid(row=9, column=0, sticky='w')
+        entry_traveling_to = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12, 'bold'), 
+          bd=2, 
+          textvariable=traveling_to)
+        entry_traveling_to.grid(row=9, column=1) 
+
+        # room_number
+        lab_room_number = Label(booking_fields, 
+          text='Room no: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial',12,'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_room_number.grid(row=10, column=0, sticky='w')
         entry_room_number = ttk.Combobox(booking_fields, 
           width=19, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           state='readonly',
           textvariable=room_number) 
         entry_room_number['values'] = options
         entry_room_number.bind("<<ComboboxSelected>>", get_rooms_detail_data)
-        entry_room_number.grid(row=4, column=1) 
+        entry_room_number.grid(row=10, column=1) 
 
         # room_type
         lab_room_type = Label(booking_fields, 
           text='Room Type: ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12, 'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_room_type.grid(row=5, column=0, sticky='w')
+        lab_room_type.grid(row=11, column=0, sticky='w')
         entry_room_type = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           state='readonly',
           textvariable=room_type)
-        entry_room_type.grid(row=5, column=1) 
+        entry_room_type.grid(row=11, column=1) 
 
         # room_amount
         lab_room_price = Label(booking_fields, 
           text='Room Price: ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_room_price.grid(row=6, column=0, sticky='w')
+        lab_room_price.grid(row=12, column=0, sticky='w')
         entry_room_price = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           state='readonly',
           textvariable=room_price)
-        entry_room_price.grid(row=6, column=1)  
+        entry_room_price.grid(row=12, column=1)  
 
         # check_in_date
         lab_check_in_date = Label(booking_fields, 
-          text='Check in (dd/mm/yyyy): ', 
+          text='Date of Arrival (dd/mm/yyyy): ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_check_in_date.grid(row=7, column=0, sticky='w')
+        lab_check_in_date.grid(row=13, column=0, sticky='w')
         entry_check_in_date = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           state='normal', 
           textvariable=check_in_date)
-        entry_check_in_date.grid(row=7, column=1) 
+        entry_check_in_date.grid(row=13, column=1) 
 
         # check_out_date
         lab_check_out_date = Label(booking_fields, 
-          text='Check out (dd/mm/yyyy): ', 
+          text='Date of departure (dd/mm/yyyy): ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_check_out_date.grid(row=8, column=0, sticky='w')
+        lab_check_out_date.grid(row=14, column=0, sticky='w')
         entry_check_out_date = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           state='normal', 
           textvariable=check_out_date)
-        entry_check_out_date.grid(row=8, column=1) 
+        entry_check_out_date.grid(row=14, column=1) 
+
+        # party
+        lab_party = Label(booking_fields, 
+          text='Party (No of person): ', 
+          padx=2, 
+          pady=2, 
+          font=('arial',12,'bold'), 
+          fg='grey', 
+          bg=white_color)
+        lab_party.grid(row=15, column=0, sticky='w')
+        entry_party = Entry(booking_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',12,'bold'), 
+          bd=2, 
+          textvariable=party)
+        entry_party.grid(row=15, column=1)
 
         # discount
         lab_discount = Label(booking_fields, 
           text='Discount (%): ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_discount.grid(row=9, column=0, sticky='w')
+        lab_discount.grid(row=16, column=0, sticky='w')
         entry_discount = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           textvariable=discount)
-        entry_discount.grid(row=9, column=1)
+        entry_discount.grid(row=16, column=1)
 
         # total_cost
         lab_total_cost = Label(booking_fields, 
           text='Total Cost: ', 
           padx=2, 
           pady=2, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           fg='grey', 
           bg=white_color)
-        lab_total_cost.grid(row=10, column=0, sticky='w')
+        lab_total_cost.grid(row=17, column=0, sticky='w')
         entry_total_cost = Entry(booking_fields, 
           bg='white', 
           width=20, 
-          font=('arial',14), 
+          font=('arial',12,'bold'), 
           bd=2, 
           textvariable=total_cost)
-        entry_total_cost.grid(row=10, column=1)
+        entry_total_cost.grid(row=17, column=1)
 
 
         # btn frame
-        btn_frame = Frame(booking_fields, padx=10, pady=4, relief='flat', bg=white_color)
-        btn_frame.grid(row=11, column=0, columnspan=2, pady=20)
+        btn_frame = Frame(booking_fields, padx=5, pady=4, relief='flat', bg=white_color)
+        btn_frame.grid(row=18, column=0, columnspan=2, pady=5)
 
         # total btn
         total_btn = Button(btn_frame, 
@@ -4088,6 +4451,7 @@ class BookingPageView(object):
           fg='white', 
           width=6, 
           height=1,
+          relief='flat',
           font=('arial',12), 
           bd=2, 
           activeforeground='white',
@@ -4100,6 +4464,7 @@ class BookingPageView(object):
           text='Add', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -4116,6 +4481,7 @@ class BookingPageView(object):
           fg='white', 
           width=6, 
           height=1,
+          relief='flat',
           activeforeground='white',
           activebackground='#4b8598',
           font=('arial',12), 
@@ -4128,6 +4494,7 @@ class BookingPageView(object):
           text='Clear', 
           bg='gray', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -4145,6 +4512,7 @@ class BookingPageView(object):
           fg='white',
           width=6, 
           height=1,
+          relief='flat',
           activeforeground='white',
           activebackground='#4b8598', 
           font=('arial',12), 
@@ -4158,6 +4526,7 @@ class BookingPageView(object):
           bg='#4b8598', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -4172,8 +4541,8 @@ class BookingPageView(object):
 class OrderPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("Shalele PLAE Hotel")
-        self.root.geometry("1260x590+40+60")
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1260x590+20+20")
         self.root.config(bd=0, bg=white_color, relief='flat')
         # self.root.resizable(0, 0)
 
@@ -4185,12 +4554,11 @@ class OrderPageView(object):
         drink_name = StringVar()
         dk_unit_cost = StringVar()
         dk_quantity = StringVar()
+        dk_total = StringVar() 
 
         fname = StringVar()
         lname = StringVar()
         mobile = StringVar() 
-
-        dk_total = StringVar() 
 
         # date 
         today = date.today()
@@ -4202,8 +4570,8 @@ class OrderPageView(object):
 
         def get_receipt_page_view():
             newWindow = Toplevel()
-            newWindow.title("Shalele PLAE Hotel")
-            newWindow.geometry("810x500+200+100")
+            newWindow.title("SHALELE PLACE")
+            # newWindow.geometry("810x500+200+100")
             newWindow.config(bd=0, bg=white_color, relief='flat')
             newWindow.resizable(0, 0)
 
@@ -4222,7 +4590,6 @@ class OrderPageView(object):
                 bg=bg1_color)
             header2_title.pack() 
 
-
             # receipt_btn
             save_btn = Button(top_frame, 
                 text='Print or Save File', 
@@ -4232,35 +4599,42 @@ class OrderPageView(object):
                 height=1, 
                 font=('arial',12), 
                 bd=1, 
+                relief='flat',
                 activeforeground='white',
                 activebackground='#72404d',
                 command=get_receipt_file)
-            save_btn.place(x=10, y=2)
-
+            save_btn.pack(pady=5)
 
             scrol = Scrollbar(bottom_frame, orient='vertical')
             scrol.pack(fill='y', side='right')
 
             textarea = Text(bottom_frame, 
-                font=('arial',14),
+                font=('arial',12),
                 state='normal', 
+                pady=10,
                 height=20, 
-                width=70)
+                width=40)
             textarea.focus()
             textarea.pack()
             scrol.config(command=textarea.yview)
 
-            get_sum = float(entry_dk_total.get())+float(entry_fd_total.get())
+            # calculating the foods and drinks totals 
+            if entry_dk_total.get():
+                get_grand_sum = (entry_dk_total.get())
+            if entry_fd_total.get():
+                get_grand_sum = (entry_fd_total.get()) 
+            if entry_dk_total.get() and entry_fd_total.get():
+                get_grand_sum = (float(entry_dk_total.get())+float(entry_fd_total.get()))
 
             get_bill_ref = random.randint(100000, 99999999)
             
             textarea.get(1.0, END)
-            textarea.insert('end', f"\t\t\tShalele PLAE Hotel Receipt\n")
-            textarea.insert('end', f"\n\t\t\tHospitality & Investment Ltd\n\n\tNo. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.\n")
+            textarea.insert('end', f"SHALELE HOSPITALITY & INVESTMENT Ltd\n")
+            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Goverment \nSecretarial. Kastsina.\n")
             textarea.insert('end', '\nDate: '+str(time.strftime("%d/%m/%y")))
-            textarea.insert('end', '\nBill Ref: '+str(get_bill_ref))
+            textarea.insert('end', '\nBill Ref: '+str(get_bill_ref)+'\n')
             if entry_food_type.get():
-                textarea.insert('end', '\nORDER FOOD(s)\n')
+                textarea.insert('end', '\nORDER FOOD(s)')
                 textarea.insert('end', '\nFood Name: '+entry_food_type.get())
             if entry_fd_unit_cost.get():
                 textarea.insert('end', '\nUnit Cost:  ₦'+entry_fd_unit_cost.get())
@@ -4270,7 +4644,7 @@ class OrderPageView(object):
                 textarea.insert('end', '\nSub Total: ₦'+entry_fd_total.get())
                 textarea.insert('end', '\n')
             if entry_drink_type.get():
-                textarea.insert('end', '\nORDER DRINK(s)\n')
+                textarea.insert('end', '\nORDER DRINK(s)')
                 textarea.insert('end', '\nDrink Name: '+entry_drink_type.get())
             if entry_dk_unit_cost.get():
                 textarea.insert('end', '\nUnit Cost:  ₦'+entry_dk_unit_cost.get())
@@ -4280,19 +4654,19 @@ class OrderPageView(object):
                 textarea.insert('end', '\nSub Total: ₦'+entry_dk_total.get())
                 textarea.insert('end', '\n')
             if entry_first_name.get():
-                textarea.insert('end', '\nTotal Cost: ₦'+str(get_sum))
+                textarea.insert('end', '\nTotal Cost: ₦'+str(get_grand_sum))
                 textarea.insert('end', '\nFirst Name: '+entry_first_name.get())
             if entry_last_name.get():
-                textarea.insert('end', '\nLast Name:  '+entry_last_name.get())
+                textarea.insert('end', '\nSurname:  '+entry_last_name.get())
             if entry_mobile.get():
-                textarea.insert('end', '\nMobile:     '+entry_mobile.get())
+                textarea.insert('end', '\nPhone no:     '+entry_mobile.get())
             textarea.insert('end', '\n\n')
             textarea.get(END, 1.0)
 
 
         def get_receipt_file():
             q = textarea.get("1.0", "end-1c")
-            filename = tempfile.mktemp(".txt")
+            filename = tempfile.mktemp(entry_last_name.get()+".txt")
             open (filename, "w", encoding="utf-8").write(q)
             os.startfile(filename, 'print')
             # Bellow is call to print text from your_widget_name textbox
@@ -4360,6 +4734,7 @@ class OrderPageView(object):
                     tv_food.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","Nothing Found", parent=root)
+                display_all_foods()
 
         food_options_list = []
         for row in db.get_foods_option():
@@ -4432,6 +4807,7 @@ class OrderPageView(object):
                     tv.insert("", END, values=row)
             else:
                 messagebox.showerror("Error","Nothing Found", parent=root)
+                display_all_drinks()
 
         drink_options_list = []
         for row in db.get_drink_option():
@@ -4500,6 +4876,7 @@ class OrderPageView(object):
             bg='#72404d', 
             fg='white',
             width=10, 
+            relief='flat',
             height=1, 
             font=('arial',12), 
             bd=1, 
@@ -4513,6 +4890,7 @@ class OrderPageView(object):
             text='View Receipt', 
             bg='#4b8598', 
             fg='white',
+            relief='flat',
             width=14, 
             height=1, 
             font=('arial',12), 
@@ -4521,7 +4899,6 @@ class OrderPageView(object):
             activebackground='#72404d',
             command=get_receipt_page_view)
         save_btn.place(x=120, y=2)
-
 
         # fname
         lab_first_name = Label(middle_frame, 
@@ -4542,7 +4919,7 @@ class OrderPageView(object):
 
         # lname
         lab_last_name = Label(middle_frame, 
-          text='Last Name: ', 
+          text='Surname: ', 
           padx=2, 
           pady=2, 
           font=('arial', 14), 
@@ -4559,7 +4936,7 @@ class OrderPageView(object):
 
         # mobile
         lab_mobile = Label(middle_frame, 
-          text='Mobile: ', 
+          text='Phone no: ', 
           padx=2, 
           pady=2, 
           font=('arial', 14), 
@@ -4606,7 +4983,7 @@ class OrderPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # Food Name
         lab_food_type = Label(food_fields, 
@@ -4687,6 +5064,7 @@ class OrderPageView(object):
           bg='#076',
           fg='white', 
           width=6, 
+          relief='flat',
           height=1,
           font=('arial',12), 
           bd=2, 
@@ -4699,6 +5077,7 @@ class OrderPageView(object):
         add_fd_btn = Button(btn_frame, 
           text='Add', 
           bg='gray',
+          relief='flat',
           fg='white', 
           width=6, 
           height=1,
@@ -4714,6 +5093,7 @@ class OrderPageView(object):
           text='Update', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -4729,6 +5109,7 @@ class OrderPageView(object):
           bg='gray', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -4744,6 +5125,7 @@ class OrderPageView(object):
           fg='white',
           width=6, 
           height=1,
+          relief='flat',
           activeforeground='white',
           activebackground='#4b8598', 
           font=('arial',12), 
@@ -4756,6 +5138,7 @@ class OrderPageView(object):
           text='Search', 
           bg='#4b8598', 
           fg='white',
+          relief='flat',
           width=6, 
           height=1, 
           font=('arial',12), 
@@ -4802,7 +5185,7 @@ class OrderPageView(object):
         tv_food['columns'] = (
             "ID", 
             "First Name", 
-            "Last Name",
+            "Surname",
             "Mobile",
             "Food Name", 
             "Unit Cost",
@@ -4812,7 +5195,7 @@ class OrderPageView(object):
         # format our columns
         tv_food.column("ID", width=80, anchor='center')
         tv_food.column("First Name", width=200, anchor='center')
-        tv_food.column("Last Name", width=200, anchor='center')
+        tv_food.column("Surname", width=200, anchor='center')
         tv_food.column("Mobile", width=200, anchor='center')
         tv_food.column("Food Name", width=150, anchor='center')
         tv_food.column("Unit Cost", width=150, anchor='center')
@@ -4822,7 +5205,7 @@ class OrderPageView(object):
         # create headings 
         tv_food.heading('ID', text="ID",)
         tv_food.heading('First Name', text="First Name",)
-        tv_food.heading('Last Name', text="Last Name",)
+        tv_food.heading('Surname', text="Surname",)
         tv_food.heading('Mobile', text="Mobile",)
         tv_food.heading("Food Name", text="Food Name",)
         tv_food.heading("Unit Cost", text="Unit Cost")
@@ -4864,7 +5247,7 @@ class OrderPageView(object):
           font=('arial', 18), 
           fg='#4b8598', 
           bg=white_color)
-        txt_title.grid(row=0, column=0, pady=10, sticky='w')
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
 
         # Food Name
         lab_drink_type = Label(drink_fields, 
@@ -4947,6 +5330,7 @@ class OrderPageView(object):
           fg='white', 
           width=6, 
           height=1,
+          relief='flat',
           font=('arial',12), 
           bd=2, 
           activeforeground='white',
@@ -4959,6 +5343,7 @@ class OrderPageView(object):
           text='Add', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -4973,6 +5358,7 @@ class OrderPageView(object):
           text='Update', 
           bg='gray',
           fg='white', 
+          relief='flat',
           width=6, 
           height=1,
           activeforeground='white',
@@ -4988,6 +5374,7 @@ class OrderPageView(object):
           bg='gray', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1,
           activeforeground='white',
           activebackground='#4b8598',
@@ -4999,6 +5386,7 @@ class OrderPageView(object):
         # delete btn
         delete_btn = Button(btn_frame, 
           text='Delete', 
+          relief='flat',
           bg='red', 
           fg='white',
           width=6, 
@@ -5016,6 +5404,7 @@ class OrderPageView(object):
           bg='#4b8598', 
           fg='white',
           width=6, 
+          relief='flat',
           height=1, 
           font=('arial',12), 
           bd=2, 
@@ -5110,15 +5499,1037 @@ class OrderPageView(object):
 
 
 
+class InventoryPageView(object): 
+    def __init__(self, root):
+        self.root = root
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("1100x630+20+20")
+        self.root.config(bd=0, bg=white_color, relief='flat')
+        self.root.resizable(0, 0)
 
-StaffHomePageView(root)
+        name = StringVar()
+        quantity = StringVar()
+        unit = StringVar()
+        unit_cost = StringVar()
+        total_cost = StringVar()
+
+        item_name = StringVar()
+        used_qty = StringVar()
+        remain_qty = StringVar()
+        created_date = StringVar()
+
+        def getData(event):
+            selected_row = tv.focus()
+            data = tv.item(selected_row) 
+            global row 
+            row = data["values"]
+            name.set(row[1])
+            quantity.set(row[2])
+            unit.set(row[3])
+            unit_cost.set(row[4])
+            total_cost.set(row[5])
+        
+        def displayAll():
+            tv.delete(*tv.get_children()) 
+            for row in db.fetch_store():
+                tv.insert("", END, values=row)
+
+
+        def add_store_data():
+            if entry_name.get() == "" or entry_quantity.get() == "" or entry_unit.get() == "" or entry_unit_cost.get() == "" or entry_total_cost.get() == "":
+                messagebox.showerror("Error in Inputs", "Please Fill All the Details",parent=root) 
+                return 
+            db.insert_store(entry_name.get(), entry_quantity.get(), entry_unit.get(), entry_unit_cost.get(), entry_total_cost.get())
+            messagebox.showinfo("Success!", "Record Has Been Successfully Saved",parent=root)
+            clearAll() 
+            displayAll()
+
+        def update_store_data():
+            if entry_name.get() == "" or entry_quantity.get() == "" or entry_unit.get() == "" or entry_unit_cost.get() == "" or entry_total_cost.get() == "":
+                messagebox.showerror("Error in Inputs", "No Data Found to Update",parent=root) 
+                return 
+            db.update_store(row[0], entry_name.get(), entry_quantity.get(), entry_unit.get(), entry_unit_cost.get(), entry_total_cost.get())
+            messagebox.showinfo("Success!", "Record Has Been Successfully Updated",parent=root)
+            clearAll() 
+            displayAll()
+
+        def delete_store_data():
+            messagebox.showinfo("Delete", "Are you sure you want to delete these data?",parent=root)
+            db.remove_store(row[0])
+            clearAll() 
+            displayAll()
+
+        def clearAll():
+            name.set('')
+            quantity.set('')
+            unit.set('')
+            unit_cost.set('')
+            total_cost.set('')
+            displayAll()
+
+        def search_store_data(): 
+            tv.delete(*tv.get_children()) 
+            if entry_name.get() or entry_quantity.get() or entry_unit.get() or entry_unit_cost.get() or entry_total_cost.get():
+                for row in db.search_store(entry_name.get(), entry_quantity.get(), entry_unit.get(), entry_unit_cost.get(), entry_total_cost.get()):
+                    tv.insert("", END, values=row)
+            else:
+                messagebox.showerror("Error","Nothing Found", parent=root)
+                displayAll()
+
+
+        def get_total_store():
+            try:
+                item_qty = entry_quantity.get()
+                unit_price = entry_unit_cost.get()
+                total_items = float(item_qty)*float(unit_price)
+                total_cost.set(str(total_items))
+            except:
+                messagebox.showinfo("Info","Nothing to calculate. Please enter some quantity and unit cost.", parent=root)
+
+
+        def getStoreData(event):          
+            selected_row = tvlist.focus()
+            data = tvlist.item(selected_row) 
+            global row 
+            row = data["values"]
+            item_name.set(row[1])
+            used_qty.set(row[2])
+            remain_qty.set(row[3]) 
+            created_date.set(row[4])
+
+        today = date.today()
+        created_item_date = today.strftime("%B %d, %Y")
+
+        created_date.set(str(created_item_date))
+
+        def get_displayAll():
+            tvlist.delete(*tvlist.get_children()) 
+            for row in db.fetch_store_usage():
+                tvlist.insert("", END, values=row)
+
+        def get_add_data():
+            if entry_item_name.get() == "" or entry_used_qty.get() == "" or entry_remain_qty.get() == "":
+                messagebox.showerror("Error in Inputs", "Please Fill All the Details",parent=root) 
+                return 
+            db.insert_store_usage(entry_item_name.get(), entry_used_qty.get(), entry_remain_qty.get(), created_item_date)
+            messagebox.showinfo("Success!", "Record Has Been Successfully Saved",parent=root)
+            get_clearAll() 
+            get_displayAll()
+        
+        def get_update_data():
+            if entry_item_name.get() == "" or entry_used_qty.get() == "" or entry_remain_qty.get() == "" or entry_created_date.get()=="":
+                messagebox.showerror("Error in Inputs", "No Data Found to Update",parent=root) 
+                return 
+            db.update_store_usage(row[0], entry_item_name.get(), entry_used_qty.get(), entry_remain_qty.get(), entry_created_date.get())
+            messagebox.showinfo("Success!", "Record Has Been Successfully Updated",parent=root)
+            get_clearAll() 
+            get_displayAll()
+
+        def get_delete_data():
+            messagebox.showinfo("Delete", "Are you sure you want to delete these data?",parent=root)
+            db.remove_store_usage(row[0])
+            get_clearAll() 
+            get_displayAll()
+
+        def get_clearAll():
+            item_name.set('')
+            used_qty.set('')
+            remain_qty.set('')
+            get_displayAll()
+
+        def get_search_data(): 
+            tvlist.delete(*tvlist.get_children()) 
+            if entry_item_name.get() or entry_used_qty.get() or entry_remain_qty.get() or entry_created_date.get():
+                for row in db.search_store_usage(entry_item_name.get(), entry_used_qty.get(), entry_remain_qty.get(), entry_created_date.get()):
+                    tvlist.insert("", END, values=row)
+            else:
+                messagebox.showerror("Error","Nothing Found", parent=root)
+                get_displayAll()
+
+        options = [] 
+        for item in db.get_store_items():
+            options.append(item[1])
+
+        def get_remaining_qty():
+            try:
+                opts = entry_item_name.get()
+                option_id = opts.split("-")[0]
+                for x in db.get_store_details(option_id):
+                    old_qty = x[2]
+
+                current_qty = entry_used_qty.get()
+
+                total_qty = float(old_qty)-float(current_qty)
+                db.update_store_qty(row[0], total_qty)
+                remain_qty.set(str(total_qty)) 
+                messagebox.showinfo("Info", f"The item remains only {total_qty} in store.", parent=root)
+            except:
+                messagebox.showinfo("Info", "Something went wrong. Check first the remaining quantity in your store.", parent=root)
+
+
+        top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
+        top_frame.pack(side='top', pady=1, fill='x', expand='false')
+        bottom_frame = LabelFrame(self.root, padx=5, bg=white_color, width=1600, relief='flat')
+        bottom_frame.pack(pady=1)
+        invent_frame = LabelFrame(self.root, padx=5, bg=white_color, width=1600, relief='flat')
+        invent_frame.pack(pady=1)
+
+        # labels headers
+        header2_title = Label(top_frame, 
+            text='Inventory Page View', 
+            font=('arial', 14, 'bold'), 
+            fg=green_color, 
+            bg=bg1_color)
+        header2_title.pack()
+
+        # exit btn
+        exit_btn = Button(top_frame, 
+          text='Exit', 
+          bg='#72404d', 
+          fg='white',
+          relief='flat',
+          width=10, 
+          height=1, 
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#4b8598',
+          command=root.destroy)
+        exit_btn.place(x=10, y=1) 
+
+        items_fields_frame = LabelFrame(bottom_frame, pady=5, padx=10, bg=white_color, width=500,)
+        items_fields_frame.pack(side='left', pady=1, fill='y', expand='false')
+
+        # items frame
+        list_frame = LabelFrame(bottom_frame, pady=5, padx=10, bg=white_color, width=500,)
+        list_frame.pack(side='right', pady=1, fill='y', expand='false')
+
+        # list frame
+        tree_frame = Frame(list_frame, bg=white_color)
+        tree_frame.pack()
+
+        # styling
+        style = ttk.Style(root)
+        style.theme_use('default')
+        style.configure("Treeview", 
+            background="silver", 
+            foreground="#4f234f", 
+            rowheight=22, 
+            fieldbackground="silver", 
+            font=('arial', 14))
+        style.map('Treeview', background=[('selected', '#4b8598')], foreground=[('selected', 'white')])
+
+        # list scroll bar
+        tree_scroll_vertical = Scrollbar(tree_frame, orient='vertical')
+        tree_scroll_vertical.pack(side=RIGHT, fill='y') 
+        tree_scroll_horizontal = Scrollbar(tree_frame, orient='horizontal')
+        tree_scroll_horizontal.pack(side=BOTTOM, fill='x') 
+
+        # create the Treeview 
+        tv = ttk.Treeview(tree_frame, 
+            yscrollcommand=tree_scroll_vertical.set,
+            xscrollcommand=tree_scroll_horizontal.set,  
+            selectmode="extended",
+            columns=(1,2,3,4,5,6))
+        tv.pack()
+
+        # configure the Scrollbar 
+        tree_scroll_vertical.config(command=tv.yview) 
+        tree_scroll_horizontal.config(command=tv.xview) 
+
+        # columns 
+        tv['columns'] = (
+            "ID", 
+            "Name", 
+            "Quantity", 
+            "Unit",
+            "Unit Cost",
+            "Total Cost",)
+
+        # format our columns
+        tv.column("ID", width=80, anchor='center')
+        tv.column("Name", width=250, anchor='center')
+        tv.column("Quantity", width=200, anchor='center')
+        tv.column("Unit", width=180, anchor='center')
+        tv.column("Unit Cost", width=200, anchor='center')
+        tv.column("Total Cost", width=200, anchor='center')
+        # create headings 
+        tv.heading('ID', text="ID",)
+        tv.heading('Name', text="Name",)
+        tv.heading('Quantity', text="Quantity",)
+        tv.heading('Unit', text="Unit",)
+        tv.heading('Unit Cost', text="Unit Cost",)
+        tv.heading('Total Cost', text="Total Cost",)
+        tv['show'] = 'headings'
+        tv.bind("<ButtonRelease-1>", getData)
+        tv.pack(fill='x')
+
+        # create Striped Row Tags 
+        tv.tag_configure('oddrow', background='white', foreground='black')
+        tv.tag_configure('evenrow', background='lightblue', foreground='black')
+
+        # add our data to the screen 
+        global count 
+        count = 0 
+        for record in db.fetch_store():
+            if count%2 == 0:
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3],record[4],record[5]), tags=('evenrow',))
+            else: 
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3],record[4],record[5]), tags=('oddrow',))
+              # increment counter 
+            count +=1
+
+        # add staff label
+        txt_title = Label(items_fields_frame, 
+          text='Add Item In Store', 
+          font=('arial', 18), 
+          fg='#4b8598', 
+          bg=white_color)
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
+
+        # fname
+        lab_name = Label(items_fields_frame, 
+          text='Name: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_name.grid(row=1, column=0,sticky='w')
+        entry_name = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=name)
+        entry_name.grid(row=1, column=1) 
+
+        # lname
+        lab_quantity = Label(items_fields_frame, 
+          text='Quantity: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_quantity.grid(row=2, column=0, sticky='w')
+        entry_quantity = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=quantity)
+        entry_quantity.grid(row=2, column=1)  
+
+        # mobile
+        lab_unit = Label(items_fields_frame, 
+          text='Unit: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_unit.grid(row=3, column=0, sticky='w')
+        entry_unit = ttk.Combobox(items_fields_frame, 
+          width=19, 
+          font=('arial',14), 
+          state='readonly', 
+          textvariable=unit)
+        entry_unit["values"]= ['Kilo','Litre','Metre','Not Available']
+        entry_unit.grid(row=3, column=1) 
+        
+        # email
+        lab_unit_cost = Label(items_fields_frame, 
+          text='Unit Cost: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_unit_cost.grid(row=4, column=0, sticky='w')
+        entry_unit_cost = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2, 
+          textvariable=unit_cost)
+        entry_unit_cost.grid(row=4, column=1) 
+        
+        lab_total_cost = Label(items_fields_frame, 
+          text='Total Cost: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_total_cost.grid(row=5, column=0, sticky='w')
+        entry_total_cost = Entry(items_fields_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2, 
+          textvariable=total_cost)
+        entry_total_cost.grid(row=5, column=1) 
+
+        # btn frame
+        btn_frame = Frame(items_fields_frame, padx=10, pady=4, relief='flat', bg=white_color)
+        btn_frame.grid(row=6, column=0, columnspan=2, pady=20)
+
+        # total btn
+        total_btn = Button(btn_frame, 
+          text='Total', 
+          bg='#076',
+          fg='white', 
+          width=6, 
+          relief='flat',
+          height=1,
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#4b8598',
+          command=get_total_store)
+        total_btn.grid(row=0, column=0, pady=5, padx=1)   
+
+        # add btn
+        add_btn = Button(btn_frame, 
+          text='Add', 
+          bg='gray',
+          fg='white', 
+          width=6, 
+          relief='flat',
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=add_store_data)
+        add_btn.grid(row=0, column=1, pady=5, padx=1)
+
+        # update btn
+        update_btn = Button(btn_frame, 
+          text='Update', 
+          bg='gray',
+          fg='white', 
+          relief='flat',
+          width=6, 
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=update_store_data)
+        update_btn.grid(row=0, column=2, pady=5, padx=1)
+
+        # clear btn
+        clear_btn = Button(btn_frame, 
+          text='Clear', 
+          bg='gray', 
+          fg='white',
+          relief='flat',
+          width=6, 
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=clearAll)
+        clear_btn.grid(row=0, column=3, pady=5, padx=1)   
+
+
+        # delete btn
+        delete_btn = Button(btn_frame, 
+          text='Delete', 
+          bg='red', 
+          fg='white',
+          width=6, 
+          relief='flat',
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598', 
+          font=('arial',12), 
+          bd=2, 
+          command=delete_store_data)
+        delete_btn.grid(row=0, column=4, pady=5, padx=1)       
+
+        # search btn
+        search_btn = Button(btn_frame, 
+          text='Search', 
+          bg='#4b8598', 
+          fg='white',
+          relief='flat',
+          width=6, 
+          height=1, 
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#72404d',
+          command=search_store_data)
+        search_btn.grid(row=0, column=5, pady=5, padx=1)
+
+        textarea_frame = LabelFrame(invent_frame, pady=5, padx=10, bg=white_color, width=500,)
+        textarea_frame.pack(side='left', pady=1, fill='y', expand='false')
+
+        # items frame
+        item_list_frame = LabelFrame(invent_frame, pady=5, padx=10, bg=white_color, width=500,)
+        item_list_frame.pack(side='right', pady=1, fill='y', expand='false') 
+
+        # list frame
+        tree_frame = Frame(item_list_frame, bg=white_color)
+        tree_frame.pack()
+
+        # styling
+        style = ttk.Style(root)
+        style.theme_use('default')
+        style.configure("Treeview", 
+            background="silver", 
+            foreground="#4f234f", 
+            rowheight=22, 
+            fieldbackground="silver", 
+            font=('arial', 14))
+        style.map('Treeview', background=[('selected', '#4b8598')], foreground=[('selected', 'white')])
+
+        # list scroll bar
+        tree_scroll_vertical = Scrollbar(tree_frame, orient='vertical')
+        tree_scroll_vertical.pack(side=RIGHT, fill='y') 
+        tree_scroll_horizontal = Scrollbar(tree_frame, orient='horizontal')
+        tree_scroll_horizontal.pack(side=BOTTOM, fill='x') 
+
+        # create the Treeview 
+        tvlist = ttk.Treeview(tree_frame, 
+            yscrollcommand=tree_scroll_vertical.set,
+            xscrollcommand=tree_scroll_horizontal.set,  
+            selectmode="extended",
+            columns=(1,2,3,4,5))
+        tvlist.pack()
+
+        # configure the Scrollbar 
+        tree_scroll_vertical.config(command=tvlist.yview) 
+        tree_scroll_horizontal.config(command=tvlist.xview) 
+
+        # columns 
+        tvlist['columns'] = (
+            "ID", 
+            "Name", 
+            "Used Quantity", 
+            "Remaining Quantity",
+            "Created Date")
+
+        # format our columns
+        tvlist.column("ID", width=80, anchor='center')
+        tvlist.column("Name", width=250, anchor='center')
+        tvlist.column("Used Quantity", width=200, anchor='center')
+        tvlist.column("Remaining Quantity", width=200, anchor='center')
+        tvlist.column("Created Date", width=200, anchor='center')
+        # create headings 
+        tvlist.heading('ID', text="ID",)
+        tvlist.heading('Name', text="Name",)
+        tvlist.heading('Used Quantity', text="Used Quantity",)
+        tvlist.heading('Remaining Quantity', text="Remaining Quantity",)
+        tvlist.heading('Created Date', text="Created Date",)
+        tvlist['show'] = 'headings'
+        tvlist.bind("<ButtonRelease-1>", getStoreData)
+        tvlist.pack(fill='x')
+
+        # create Striped Row Tags 
+        tvlist.tag_configure('oddrow', background='white', foreground='black')
+        tvlist.tag_configure('evenrow', background='lightblue', foreground='black')
+
+        # add our data to the screen 
+        global countItem 
+        countItem = 0 
+        for record in db.fetch_store_usage():
+            if countItem%2 == 0:
+                tvlist.insert(parent='', index='end', iid=countItem, text='', values=(record[0], record[1], record[2], record[3],record[4]), tags=('evenrow',))
+            else: 
+                tvlist.insert(parent='', index='end', iid=countItem, text='', values=(record[0], record[1], record[2], record[3],record[4]), tags=('oddrow',))
+              # increment counter 
+            countItem +=1
+
+        # add staff label
+        txts_title = Label(textarea_frame, 
+          text='Use Items From Store', 
+          font=('arial', 18), 
+          fg='#4b8598', 
+          bg=white_color)
+        txts_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
+
+        # fname
+        lab_item_name = Label(textarea_frame, 
+          text='Name: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_item_name.grid(row=1, column=0,sticky='w')
+        entry_item_name = ttk.Combobox(textarea_frame, 
+          width=19, 
+          font=('arial',14), 
+          state='readonly', 
+          textvariable=item_name)
+        entry_item_name["values"]= options
+        entry_item_name.grid(row=1, column=1) 
+
+        # lname
+        lab_used_qty = Label(textarea_frame, 
+          text='Qty To use: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_used_qty.grid(row=2, column=0, sticky='w')
+        entry_used_qty = Entry(textarea_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=used_qty)
+        entry_used_qty.grid(row=2, column=1)  
+
+        # lname
+        lab_remain_qty = Label(textarea_frame, 
+          text='Qty Remain: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_remain_qty.grid(row=3, column=0, sticky='w')
+        entry_remain_qty = Entry(textarea_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=remain_qty)
+        entry_remain_qty.grid(row=3, column=1)  
+
+        # lname
+        lab_created_date = Label(textarea_frame, 
+          text='Created Date: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_created_date.grid(row=4, column=0, sticky='w')
+        entry_created_date = Entry(textarea_frame, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          textvariable=created_date)
+        entry_created_date.grid(row=4, column=1)  
+
+        # btn frame
+        btn_frame = Frame(textarea_frame, padx=10, pady=4, relief='flat', bg=white_color)
+        btn_frame.grid(row=5, column=0, columnspan=2, pady=20)
+
+        # total btn
+        remain_btn = Button(btn_frame, 
+          text='Qty Remain', 
+          bg='#076',
+          fg='white', 
+          # width=6,
+          relief='flat', 
+          height=1,
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#4b8598',
+          command=get_remaining_qty)
+        remain_btn.grid(row=0, column=0, pady=5, padx=1)   
+
+        # add btn
+        adds_btn = Button(btn_frame, 
+          text='Add', 
+          bg='gray',
+          relief='flat',
+          fg='white', 
+          width=6, 
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=get_add_data)
+        adds_btn.grid(row=0, column=1, pady=5, padx=1)
+
+        # update btn
+        updates_btn = Button(btn_frame, 
+          text='Update', 
+          bg='gray',
+          fg='white', 
+          relief='flat',
+          width=6, 
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=get_update_data)
+        updates_btn.grid(row=0, column=2, pady=5, padx=1)
+
+        # clear btn
+        clears_btn = Button(btn_frame, 
+          text='Clear', 
+          bg='gray', 
+          fg='white',
+          width=6, 
+          relief='flat',
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=get_clearAll)
+        clears_btn.grid(row=0, column=3, pady=5, padx=1)   
+
+
+        # delete btn
+        deletes_btn = Button(btn_frame, 
+          text='Delete', 
+          bg='red', 
+          fg='white',
+          width=6, 
+          height=1,
+          relief='flat',
+          activeforeground='white',
+          activebackground='#4b8598', 
+          font=('arial',12), 
+          bd=2, 
+          command=get_delete_data)
+        deletes_btn.grid(row=0, column=4, pady=5, padx=1)       
+
+        # search btn
+        searchs_btn = Button(btn_frame, 
+          text='Search', 
+          bg='#4b8598', 
+          fg='white',
+          relief='flat',
+          width=6, 
+          height=1, 
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#72404d',
+          command=get_search_data)
+        searchs_btn.grid(row=0, column=5, pady=5, padx=1) 
+
+        displayAll()
+        get_displayAll()
+
+
+
+class LoginHistoryPage(object):
+    """docstring for LoginHistoryPage"""
+    def __init__(self, root):
+        self.root = root
+        self.root.title("SHALELE PLACE")
+        self.root.geometry("900x400+20+80")
+        self.root.config(bd=0, bg=white_color, relief='flat')
+        self.root.resizable(0, 0)
+
+        login_user = StringVar()
+        login_date = StringVar()
+        login_time = StringVar()
+        
+        def getData(event):
+            selected_row = tv.focus()
+            data = tv.item(selected_row) 
+            global row 
+            row = data["values"]
+            login_user.set(row[1])
+            login_date.set(row[2])
+            login_time.set(row[3])
+
+        def displayAll():
+            tv.delete(*tv.get_children()) 
+            for row in db.fetch_login_history():
+                tv.insert("", END, values=row)
+
+        def get_search():
+            tv.delete(*tv.get_children()) 
+            if  entry_login_user.get() or entry_login_date.get() or entry_login_time.get(): 
+                for row in db.search_login_history(entry_login_user.get(), entry_login_date.get(), entry_login_time.get()):
+                    tv.insert("", END, values=row)
+            else:
+                messagebox.showerror("Error","Nothing Found", parent=root)
+                displayAll()
+
+        def get_delete():
+            if row:
+                messagebox.showinfo("Delete", "Are you sure you want to delete these data?", parent=root)
+                db.remove_login_history(row[0])
+            get_clearAll()
+            displayAll()
+
+        def get_delete_all():
+            messagebox.showinfo("Delete All", "Are you sure you want to delete all these data?", parent=root)
+            db.remove_all_login_history()
+            get_clearAll()
+            displayAll()
+
+        def get_clearAll():
+            login_user.set('')
+            login_date.set('')
+            login_time.set('')
+            displayAll()
+
+        top_frame = LabelFrame(self.root, relief='raised', bg=bg1_color, height=80, pady=10)
+        top_frame.pack(side='top', pady=1, fill='x', expand='false')
+        bottom_frame = LabelFrame(self.root, padx=5, bg=white_color, width=1600, relief='flat')
+        bottom_frame.pack(pady=1)
+
+        # labels headers
+        header2_title = Label(top_frame, 
+            text='Login History Details', 
+            font=('arial', 14, 'bold'), 
+            fg=green_color, 
+            bg=bg1_color)
+        header2_title.pack()
+
+        # exit btn
+        exit_btn = Button(top_frame, 
+            text='Exit', 
+            bg='#72404d', 
+            fg='white',
+            width=6, 
+            relief='flat',
+            height=1, 
+            font=('arial',12), 
+            bd=1, 
+            activeforeground='white',
+            activebackground='#4b8598',
+            command=root.destroy)
+        exit_btn.place(x=10, y=2)
+
+        # items frame
+        history_fields = LabelFrame(bottom_frame, pady=5, padx=10, bg=white_color, width=500,)
+        history_fields.pack(side='left', pady=1, fill='y', expand='false')
+
+        # items frame
+        list_frame = LabelFrame(bottom_frame, pady=5, padx=10, bg=white_color, width=500,)
+        list_frame.pack(side='right', pady=1, fill='y', expand='false')
+
+        # list frame
+        tree_frame = Frame(list_frame, bg=white_color)
+        tree_frame.pack(pady=5)
+
+        # styling
+        style = ttk.Style(root)
+        style.theme_use('default')
+        style.configure("Treeview", 
+            background="silver", 
+            foreground="#4f234f", 
+            rowheight=34, 
+            fieldbackground="silver", 
+            font=('arial', 14))
+        style.map('Treeview', background=[('selected', '#4b8598')], foreground=[('selected', 'white')])
+
+        # list scroll bar
+        tree_scroll_vertical = Scrollbar(tree_frame, orient='vertical')
+        tree_scroll_vertical.pack(side=RIGHT, fill='y') 
+        tree_scroll_horizontal = Scrollbar(tree_frame, orient='horizontal')
+        tree_scroll_horizontal.pack(side=BOTTOM, fill='x') 
+
+        # create the Treeview 
+        tv = ttk.Treeview(tree_frame, 
+            yscrollcommand=tree_scroll_vertical.set,
+            xscrollcommand=tree_scroll_horizontal.set,  
+            selectmode="extended",
+            columns=(1,2,3,4))
+        tv.pack()
+
+        # configure the Scrollbar 
+        tree_scroll_vertical.config(command=tv.yview) 
+        tree_scroll_horizontal.config(command=tv.xview) 
+
+        # columns 
+        tv['columns'] = (
+            "ID", 
+            "LoginUser",
+            "LoginDate",
+            "LoginTime")
+
+        # format our columns
+        tv.column("ID", width=80, anchor='center')
+        tv.column("LoginUser", width=250, anchor='center')
+        tv.column("LoginDate", width=250, anchor='center')
+        tv.column("LoginTime", width=250, anchor='center')
+        
+        # create headings 
+        tv.heading('ID', text="ID",)
+        tv.heading('LoginUser', text="Login User",)
+        tv.heading('LoginDate', text="Login Date",)
+        tv.heading('LoginTime', text="Login Time",)
+        tv['show'] = 'headings'
+        tv.bind("<ButtonRelease-1>", getData)
+        tv.pack(fill='x')
+
+        # create Striped Row Tags 
+        tv.tag_configure('oddrow', background='white', foreground='black')
+        tv.tag_configure('evenrow', background='lightblue', foreground='black')
+
+        global count 
+        count = 0 
+        for record in db.fetch_login_history():
+            if count%2 == 0:
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3]), tags=('evenrow',))
+            else: 
+                tv.insert(parent='', index='end', iid=count, text='', values=(record[0], record[1], record[2], record[3]), tags=('oddrow',))
+            count +=1
+        
+
+        # add staff label
+        txt_title = Label(history_fields, 
+          text='Search Login History', 
+          font=('arial', 18), 
+          fg='#4b8598', 
+          bg=white_color)
+        txt_title.grid(row=0, column=0, columnspan=2, pady=10, sticky='w')
+
+        
+        # entry_login_user
+        lab_login_user = Label(history_fields, 
+          text='Login User: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial', 14), 
+          fg='grey', 
+          bg=white_color)
+        lab_login_user.grid(row=1, column=0, sticky='w')
+        entry_login_user = Entry(history_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2, 
+          state='normal',
+          textvariable=login_user)
+        entry_login_user.grid(row=1, column=1) 
+
+        # login_date
+        lab_login_date = Label(history_fields, 
+          text='Login Date: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial',14), 
+          fg='grey', 
+          bg=white_color)
+        lab_login_date.grid(row=2, column=0, sticky='w')
+        entry_login_date = Entry(history_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2,
+          state='normal', 
+          textvariable=login_date)
+        entry_login_date.grid(row=2, column=1)  
+        
+        # login_time
+        lab_login_time = Label(history_fields, 
+          text='Login Time: ', 
+          padx=2, 
+          pady=2, 
+          font=('arial',14), 
+          fg='grey', 
+          bg=white_color)
+        lab_login_time.grid(row=3, column=0, sticky='w')
+        entry_login_time = Entry(history_fields, 
+          bg='white', 
+          width=20, 
+          font=('arial',14), 
+          bd=2, 
+          state='normal',
+          textvariable=login_time)
+        entry_login_time.grid(row=3, column=1)
+
+
+        # btn frame
+        btn_frame = Frame(history_fields, padx=10, pady=4, relief='flat', bg=white_color)
+        btn_frame.grid(row=4, column=0, columnspan=2, pady=20)
+
+        # search btn
+        search_btn = Button(btn_frame, 
+          text='Search', 
+          bg='#4b8598', 
+          fg='white',
+          width=10, 
+          relief='flat',
+          height=1, 
+          font=('arial',12), 
+          bd=2, 
+          activeforeground='white',
+          activebackground='#72404d',
+          command=get_search)
+        search_btn.grid(row=0, column=0, pady=5, padx=1)   
+        
+        # clear_btn
+        clear_btn = Button(btn_frame, 
+          text='Clear', 
+          bg='gray', 
+          fg='white',
+          width=10, 
+          relief='flat',
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=get_clearAll)
+        clear_btn.grid(row=0, column=1, pady=5, padx=1)
+
+        # delete_one_btn
+        delete_one_btn = Button(btn_frame, 
+          text='Delete One', 
+          bg='gray', 
+          fg='white',
+          width=10, 
+          relief='flat',
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598',
+          font=('arial',12), 
+          bd=2, 
+          command=get_delete)
+        delete_one_btn.grid(row=0, column=2, pady=5, padx=1)   
+
+        # delete btn
+        delete_all_btn = Button(btn_frame, 
+          text='Delete All', 
+          bg='red', 
+          relief='flat',
+          fg='white',
+          width=10, 
+          height=1,
+          activeforeground='white',
+          activebackground='#4b8598', 
+          font=('arial',12), 
+          bd=2, 
+          command=get_delete_all)
+        delete_all_btn.grid(row=0, column=3, pady=5, padx=1)       
+        
+        displayAll()
+
+
+
+
+
+
+
+
+LoginPageView(root)
+# StaffHomePageView(root)
 # HomePageView(root)
 root.mainloop()
 
 
 
+# pyinstaller --onefile -w -i logo.ico --add-data "db.py;." app.py
 
-# pyinstaller --onefile -w --add-data "shalele_hotel_db.db;." --add-data "db.py;." app.py
+
+
+
 
 
 

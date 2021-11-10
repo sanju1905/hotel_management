@@ -16,8 +16,11 @@ class Database:
             CREATE TABLE IF NOT EXISTS account(
                 id integer PRIMARY KEY AUTOINCREMENT,
                 username char,
+                mobile char,
+                dob char,
                 password char,
                 designation char
+
             )
         """
         self.cur.execute(account_sql)
@@ -72,13 +75,21 @@ class Database:
                 fname char(50),
                 lname char(50), 
                 mobile char(50),
+                address char(50),
+                email char(50),
+                car_reg_no char(50),
+                means_of_id char(50),
+                traveling_from char(50),
+                traveling_to char(50),
                 room_number integer,
                 room_type char(20),
                 room_price real,
                 check_in_date text,
                 check_out_date text,
+                party char(50),
                 discount real,
-                total_cost real
+                total_cost real, 
+                bill_ref text
             )
         """
         self.cur.execute(booking_sql)
@@ -90,7 +101,7 @@ class Database:
                 fname char(50),
                 lname char(50), 
                 mobile char(50),
-                food_name char, 
+                food_name text, 
                 unit_cost real,
                 quantity text,
                 total_cost text
@@ -105,7 +116,7 @@ class Database:
                 fname char(50),
                 lname char(50), 
                 mobile char(50),
-                drink_name char, 
+                drink_name text, 
                 unit_cost real,
                 quantity text,
                 total_cost text 
@@ -135,7 +146,7 @@ class Database:
         order_food_activity_sql = """
             CREATE TABLE IF NOT EXISTS order_food_activity(
                 id integer PRIMARY KEY AUTOINCREMENT, 
-                food_name char, 
+                food_name text, 
                 quantity text,
                 total_cost text, 
                 created_date text,
@@ -148,7 +159,7 @@ class Database:
         order_drink_activity_sql = """
             CREATE TABLE IF NOT EXISTS order_drink_activity(
                 id integer PRIMARY KEY AUTOINCREMENT, 
-                drink_name char, 
+                drink_name text, 
                 quantity text,
                 total_cost text, 
                 created_date text,
@@ -158,12 +169,143 @@ class Database:
         self.cur.execute(order_drink_activity_sql) 
         self.con.commit()
 
+        store_sql = """
+            CREATE TABLE IF NOT EXISTS store(
+                id integer PRIMARY KEY AUTOINCREMENT, 
+                name text, 
+                quantity text,
+                unit text,
+                unit_cost real,
+                total_cost text
+            )
+        """
+        self.cur.execute(store_sql) 
+        self.con.commit()
+
+
+        store_usage_sql = """
+            CREATE TABLE IF NOT EXISTS store_usage(
+                id integer PRIMARY KEY AUTOINCREMENT, 
+                name text, 
+                qty_use text,
+                qty_remain text, 
+                created_date text
+            )
+        """
+        self.cur.execute(store_usage_sql) 
+        self.con.commit()
+
+        login_history_sql = """
+            CREATE TABLE IF NOT EXISTS login_history(
+                id integer PRIMARY KEY, 
+                login_user text, 
+                login_date text, 
+                login_time text
+            )
+        """ 
+        self.cur.execute(login_history_sql)
+        self.con.commit()
+
+
+    # login history 
+    def insert_login_history(self, login_user, login_date, login_time):
+        self.cur.execute("INSERT INTO login_history VALUES(NULL,?,?,?)",
+            (login_user, login_date, login_time))
+        self.con.commit()
+
+    def fetch_login_history(self):
+        self.cur.execute("SELECT * FROM login_history ORDER BY id DESC") 
+        rows = self.cur.fetchall()
+        return rows 
+
+    def search_login_history(self, login_user, login_date, login_time):
+        self.cur.execute("SELECT * FROM login_history WHERE login_user=? OR login_date=? OR login_time=?", 
+            (login_user, login_date, login_time))
+        rows = self.cur.fetchall()
+        return rows 
+
+    def remove_login_history(self, id):
+        self.cur.execute("DELETE FROM login_history WHERE id=?", (id,)) 
+        self.con.commit()
+
+    def remove_all_login_history(self):
+        self.cur.execute("DELETE FROM login_history") 
+        self.con.commit()
+
+
+    # store_usage 
+    def insert_store_usage(self, name, qty_use, qty_remain, created_date):
+        self.cur.execute("INSERT INTO store_usage VALUES(NULL,?,?,?,?)",
+            (name, qty_use, qty_remain, created_date))
+        self.con.commit()
+
+    def update_store_usage(self, id, name, qty_use, qty_remain, created_date):
+        self.cur.execute("UPDATE store_usage SET name=?, qty_use=?, qty_remain=?, created_date=? WHERE id=?", 
+            (name, qty_use, qty_remain, created_date, id,))
+        self.con.commit()
+
+    def fetch_store_usage(self):
+        self.cur.execute("SELECT * FROM store_usage ORDER BY id DESC") 
+        rows = self.cur.fetchall()
+        return rows 
+
+    def search_store_usage(self, name, qty_use, qty_remain, created_date):
+        self.cur.execute("SELECT * FROM store_usage WHERE name=? OR qty_use=? OR qty_remain=? OR created_date=?", 
+            (name, qty_use, qty_remain, created_date))
+        rows = self.cur.fetchall()
+        return rows 
+
+    def remove_store_usage(self, id):
+        self.cur.execute("DELETE FROM store_usage WHERE id=?", (id,)) 
+        self.con.commit()
+
+
+    # store 
+    def insert_store(self, name, quantity, unit, unit_cost, total_cost):
+        self.cur.execute("INSERT INTO store VALUES(NULL,?,?,?,?,?)",
+            (name, quantity, unit, unit_cost, total_cost))
+        self.con.commit()
+
+    def update_store(self, id, name, quantity, unit, unit_cost, total_cost):
+        self.cur.execute("UPDATE store SET name=?, quantity=?, unit=?, unit_cost=?, total_cost=? WHERE id=?", 
+            (name, quantity, unit, unit_cost,total_cost, id,))
+        self.con.commit()
+
+    def update_store_qty(self, id, quantity):
+        self.cur.execute("UPDATE store SET quantity=? WHERE id=?", 
+            (quantity, id,))
+        self.con.commit()
+
+    def fetch_store(self):
+        self.cur.execute("SELECT * FROM store ORDER BY id DESC") 
+        rows = self.cur.fetchall()
+        return rows 
+
+    def search_store(self, name, quantity, unit, unit_cost, total_cost):
+        self.cur.execute("SELECT * FROM store WHERE name=? OR quantity=? OR unit=? OR unit_cost=? OR total_cost=?", 
+            (name, quantity, unit, unit_cost, total_cost))
+        rows = self.cur.fetchall()
+        return rows 
+
+    def get_store_items(self):
+        self.cur.execute("SELECT id, name FROM store") 
+        rows = self.cur.fetchall()
+        return rows
+
+    def get_store_details(self, name):
+        self.cur.execute("SELECT * FROM store WHERE name=?", (name,))
+        rows = self.cur.fetchall()
+        return rows
+
+    def remove_store(self, id):
+        self.cur.execute("DELETE FROM store WHERE id=?", (id,)) 
+        self.con.commit()
 
 
     # account
-    def insert_account(self, username, password, designation):
-        self.cur.execute("INSERT INTO account VALUES (NULL, ?, ?, ?)", 
-            (username, password, designation))
+    def insert_account(self, username, mobile, dob, password, designation):
+        self.cur.execute("INSERT INTO account VALUES (NULL, ?, ?, ?, ?, ?)", 
+            (username, mobile, dob, password, designation))
         self.con.commit() 
 
     def fetch_account(self):
@@ -171,9 +313,9 @@ class Database:
         rows = self.cur.fetchall()
         return rows 
 
-    def search_account(self, username, password, designation):
-        self.cur.execute("SELECT * FROM account WHERE username=? OR password=? OR designation=?", 
-            (username, password, designation))
+    def search_account(self, username, mobile, dob, password, designation):
+        self.cur.execute("SELECT * FROM account WHERE username=? OR mobile=? OR dob=? OR password=? OR designation=?", 
+            (username, mobile, dob, password, designation))
         rows = self.cur.fetchall()
         return rows 
 
@@ -187,9 +329,9 @@ class Database:
         self.cur.execute("DELETE FROM account WHERE id=?", (id,)) 
         self.con.commit()
 
-    def update_account(self, id, username, password, designation):
-        self.cur.execute("UPDATE account SET username=?, password=?, designation=? WHERE id=?", 
-            (username, password, designation, id,))
+    def update_account(self, id, username, mobile, dob, password, designation):
+        self.cur.execute("UPDATE account SET username=?, mobile=?, dob=?, password=?, designation=? WHERE id=?", 
+            (username, mobile, dob, password, designation, id,))
         self.con.commit()
 
 
@@ -469,11 +611,12 @@ class Database:
              (fname, lname, mobile, email, id,))
         self.con.commit()
 
+# fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref
 
      # bookings table
-    def insert_booking(self, fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost):
-        self.cur.execute("INSERT INTO bookings VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-            (fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost))
+    def insert_booking(self, fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref):
+        self.cur.execute("INSERT INTO bookings VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+            (fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref))
         self.con.commit() 
 
     def fetch_booking(self):
@@ -486,9 +629,9 @@ class Database:
         rows = self.cur.fetchall()
         return rows
 
-    def search_booking(self, fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost):
-        self.cur.execute("SELECT * FROM bookings WHERE fname=? OR lname=? OR mobile=? OR room_number=? OR room_type=? OR room_price=? OR check_in_date=? OR check_out_date=? OR discount=? OR total_cost=?", 
-            (fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost))
+    def search_booking(self, fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref):
+        self.cur.execute("SELECT * FROM bookings WHERE fname=? OR lname=? OR mobile=? OR address=? OR email=? OR car_reg_no=? OR means_of_id=? OR traveling_from=? OR traveling_to=? OR room_number=? OR room_type=? OR room_price=? OR check_in_date=? OR check_out_date=? OR party=? OR discount=? OR total_cost=? OR bill_ref=?", 
+            (fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref))
         rows = self.cur.fetchall()
         return rows 
 
@@ -501,9 +644,9 @@ class Database:
         self.cur.execute("DELETE FROM bookings WHERE id=?", (id,))
         self.con.commit()
 
-    def update_booking(self, id, fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost):
-        self.cur.execute("UPDATE bookings SET fname=?, lname=?, mobile=?, room_number=?, room_type=?, room_price=?, check_in_date=?, check_out_date=?, discount=?, total_cost=? WHERE id=?", 
-            (fname, lname, mobile, room_number, room_type, room_price, check_in_date, check_out_date, discount, total_cost, id,))
+    def update_booking(self, id, fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref):
+        self.cur.execute("UPDATE bookings SET fname=?, lname=?, mobile=?, address=?, email=?, car_reg_no=?, means_of_id=?, traveling_from=?, traveling_to=?, room_number=?, room_type=?, room_price=?, check_in_date=?, check_out_date=?, party=?, discount=?, total_cost=?, bill_ref=? WHERE id=?", 
+            (fname, lname, mobile, address, email, car_reg_no, means_of_id, traveling_from, traveling_to, room_number, room_type, room_price, check_in_date, check_out_date, party, discount, total_cost, bill_ref, id,))
         self.con.commit()
 
 
@@ -553,8 +696,6 @@ class Database:
     def update_order_drink(self, id, fname, lname, mobile, drink_name, unit_cost, quantity, total_cost):
         self.cur.execute("UPDATE order_drink SET fname=?, lname=?, mobile=?, drink_name=?, unit_cost=?, quantity=?, total_cost=? WHERE id=?", (fname, lname, mobile, drink_name, unit_cost, quantity, total_cost, id,))
         self.con.commit()
-
-
 
 
 
