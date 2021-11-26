@@ -9,7 +9,7 @@ from tkinter import ttk
 from time import strftime
 from datetime import datetime 
 from datetime import datetime, date, timedelta 
-from db import Database 
+from db import Database
 
 
 
@@ -124,7 +124,7 @@ class LoginPageView(object):
 
         # add staff label
         header2_title = Label(top_frame, 
-            text='Login', 
+            text='Login Page', 
             font=('arial', 30, 'bold'), 
             fg=green_color, 
             bg=bg1_color)
@@ -200,7 +200,7 @@ class LoginPageView(object):
             activeforeground='white',
             activebackground='#4b8598',
             command=get_login)
-        add_btn.grid(row=0, column=0, pady=10, padx=2)
+        add_btn.grid(row=0, column=0, pady=10, padx=4)
 
         # exit btn
         exit_app_btn = Button(btn_frame, 
@@ -216,7 +216,7 @@ class LoginPageView(object):
             activeforeground='white',
             activebackground='#4b8598',
             command=self.exit_app)
-        exit_app_btn.grid(row=0, column=1, pady=10, padx=2)
+        exit_app_btn.grid(row=0, column=1, pady=10, padx=4)
 
 
 
@@ -298,20 +298,6 @@ class StaffHomePageView(object):
             command=self.about_message)
         about_btn.grid(row=0, column=0, padx=4)
 
-        
-        # inventory_btn = Button(middle_frame, 
-        #     text="Inventory",  
-        #     bg='grey', 
-        #     fg='white',
-        #     relief='flat',
-        #     width=14,
-        #     bd=1,
-        #     activeforeground=white_color,
-        #     activebackground=blue_color,
-        #     font=('arial',14),
-        #     command=self.get_inventory_page)
-        # inventory_btn.grid(row=0, column=1, padx=4)
-
         exit_btn = Button(middle_frame, 
             text="Exit",  
             bg=chocolate_color, 
@@ -388,7 +374,6 @@ class StaffHomePageView(object):
 
 
         get_clock_time()
-
 
 
 # 
@@ -3594,7 +3579,7 @@ class BookingPageView(object):
         def get_receipt_page_view():
             newWindow = Toplevel()
             newWindow.title("Shalele PLAE Hotel")
-            # newWindow.geometry("300x460+100+80")
+            # newWindow.geometry("600x460+100+80")
             newWindow.config(bd=0, bg=white_color, relief='flat')
             newWindow.resizable(0, 0)
 
@@ -3638,14 +3623,14 @@ class BookingPageView(object):
                 state='normal',
                 pady=10,
                 height=20, 
-                width=40)
+                width=60)
             textarea.focus()
             textarea.pack(anchor='center',)
             scrol.config(command=textarea.yview)
 
             textarea.get(1.0, END)
             textarea.insert('end', f"SHALELE HOSPITALITY & INVESTMENT Ltd\n")
-            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Goverment \nSecretarial. Kastsina.\n")
+            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Secretariat. Katsina.\n")
             textarea.insert('end', '\nDate: '+str(time.strftime("%d/%m/%y")))
             textarea.insert('end', '\nBill Ref: '+str(entry_bill_ref.get())) 
             textarea.insert('end', '\n')
@@ -3689,7 +3674,7 @@ class BookingPageView(object):
 
         def get_receipt_file():
             q = textarea.get("1.0", "end-1c")
-            filename = tempfile.mktemp(f"{entry_last_name.get()}"+".txt")
+            filename = tempfile.mktemp(f"{entry_last_name.get()}.doc")
             open (filename, "w", encoding="utf-8").write(q)
             os.startfile(filename, 'print')
             # Bellow is call to print text from your_widget_name textbox
@@ -4568,6 +4553,8 @@ class OrderPageView(object):
         global row 
         global textarea 
 
+        get_bill_ref = random.randint(100000, 99999999)
+
         def get_receipt_page_view():
             newWindow = Toplevel()
             newWindow.title("SHALELE PLACE")
@@ -4613,7 +4600,7 @@ class OrderPageView(object):
                 state='normal', 
                 pady=10,
                 height=20, 
-                width=40)
+                width=60)
             textarea.focus()
             textarea.pack()
             scrol.config(command=textarea.yview)
@@ -4626,11 +4613,10 @@ class OrderPageView(object):
             if entry_dk_total.get() and entry_fd_total.get():
                 get_grand_sum = (float(entry_dk_total.get())+float(entry_fd_total.get()))
 
-            get_bill_ref = random.randint(100000, 99999999)
             
             textarea.get(1.0, END)
-            textarea.insert('end', f"SHALELE HOSPITALITY & INVESTMENT Ltd\n")
-            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Goverment \nSecretarial. Kastsina.\n")
+            textarea.insert('end', f"\nSHALELE HOSPITALITY & INVESTMENT Ltd\n")
+            textarea.insert('end', f"\nNo. 12 Kano Road, Beside Federal Secretariat. Katsina.\n")
             textarea.insert('end', '\nDate: '+str(time.strftime("%d/%m/%y")))
             textarea.insert('end', '\nBill Ref: '+str(get_bill_ref)+'\n')
             if entry_food_type.get():
@@ -4641,7 +4627,7 @@ class OrderPageView(object):
             if entry_fd_quantity.get():
                 textarea.insert('end', '\nQuantity:   '+entry_fd_quantity.get())
             if entry_fd_total.get():
-                textarea.insert('end', '\nSub Total: ₦'+entry_fd_total.get())
+                textarea.insert('end', '\nSub Total:  ₦'+entry_fd_total.get())
                 textarea.insert('end', '\n')
             if entry_drink_type.get():
                 textarea.insert('end', '\nORDER DRINK(s)')
@@ -4651,7 +4637,7 @@ class OrderPageView(object):
             if entry_dk_quantity.get():
                 textarea.insert('end', '\nQuantity:   '+entry_dk_quantity.get())
             if entry_dk_total.get():
-                textarea.insert('end', '\nSub Total: ₦'+entry_dk_total.get())
+                textarea.insert('end', '\nSub Total:  ₦'+entry_dk_total.get())
                 textarea.insert('end', '\n')
             if entry_first_name.get():
                 textarea.insert('end', '\nTotal Cost: ₦'+str(get_grand_sum))
@@ -4659,18 +4645,16 @@ class OrderPageView(object):
             if entry_last_name.get():
                 textarea.insert('end', '\nSurname:  '+entry_last_name.get())
             if entry_mobile.get():
-                textarea.insert('end', '\nPhone no:     '+entry_mobile.get())
+                textarea.insert('end', '\nPhone no: '+entry_mobile.get())
             textarea.insert('end', '\n\n')
             textarea.get(END, 1.0)
 
 
         def get_receipt_file():
-            q = textarea.get("1.0", "end-1c")
-            filename = tempfile.mktemp(entry_last_name.get()+".txt")
+            q = textarea.get(1.0, "end-1c")
+            filename = tempfile.mktemp(f"{entry_last_name.get()}.doc")
             open (filename, "w", encoding="utf-8").write(q)
             os.startfile(filename, 'print')
-            # Bellow is call to print text from your_widget_name textbox
-            # win32api.ShellExecute(0,"print", filename, '"%s"' % win32print.GetDefaultPrinter(), ".", 0)
 
 
         def getFoodData(event): 
@@ -4794,7 +4778,7 @@ class OrderPageView(object):
             fname.set('')
             lname.set('')
             mobile.set('')
-            food_name.set('')
+            drink_name.set('')
             dk_unit_cost.set('')
             dk_quantity.set('')
             dk_total.set('')
@@ -6513,22 +6497,22 @@ class LoginHistoryPage(object):
 
 
 
-
-
-
+def close_app(event):
+    root.quit()
+    exit()
 
 
 LoginPageView(root)
 # StaffHomePageView(root)
 # HomePageView(root)
+
+root.bind('<Escape>', close_app)
+
 root.mainloop()
 
 
 
 # pyinstaller --onefile -w -i logo.ico --add-data "db.py;." app.py
-
-
-
 
 
 
