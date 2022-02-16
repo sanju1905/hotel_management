@@ -1,3 +1,6 @@
+#username = admin
+#password = 9090
+
 import os 
 import sys
 import time
