@@ -85,7 +85,7 @@ class LoginPageView(object):
                 messagebox.showerror("Error","The Fields Cannot Be Empty", parent=root)
                 clearAll()
 
-            elif username=="admin" and password=="9090" and designation=="admin":
+            elif username=="admin" and password=="admin" and designation=="admin":
                 db.insert_login_history(username, set_login_date, set_login_time)
                 self.get_admin_page()
                 clearAll()
