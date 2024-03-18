@@ -54,7 +54,7 @@ class LoginPageView(object):
 
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDEV PALACE")
         self.root.geometry('600x400+200+100')
         self.root.config(bd=1, bg=white_color, relief='raised')
         self.root.resizable(0, 0)
@@ -239,18 +239,18 @@ class StaffHomePageView(object):
 
     def about_message(self):
         msg = """
-        Owner: SHALELE PLACE\n
+        Owner: MyDev\n
         App Type: Hotel Management System\n
         Built Date: September 2021\n
         Vesion: 1.0\n
-        Developer: Denamse Angono Derkos Tirel\n
-        Email: tirelangono@gmail.com\n"""
+        Developer:MyDev\n
+        Email: sanjaykandula3@gmail.com\n"""
         messagebox.showinfo("About System", msg)
 
 
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDEV")
         self.root.geometry('1350x700+0+0')
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.state('zoomed')
@@ -270,7 +270,7 @@ class StaffHomePageView(object):
 
         # labels headers
         header1_title = Label(top_frame, 
-            text='SHALELE PLACE', 
+            text='MY DEV', 
             font=('arial', 35, 'bold'),
             fg=title_color, 
             bg=bg1_color)
@@ -282,7 +282,7 @@ class StaffHomePageView(object):
             bg=bg1_color)
         header2_title.pack()
         header3_title = Label(top_frame, 
-            text='No. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.', 
+            text='Chennai Central, Chennai 600025', 
             font=('arial', 12,), 
             fg=green_color, 
             bg=bg1_color)
@@ -435,18 +435,18 @@ class HomePageView(object):
 
     def about_message(self):
         msg = """
-        Owner: SHALELE PLACE\n
+        Owner: MYDev\n
         App Type: Hotel Management System\n
         Built Date: September 2021\n
         Vesion: 1.0\n
-        Developer: Denamse Angono Derkos Tirel\n
-        Email: tirelangono@gmail.com\n"""
+        Developer: My Dev pvt lmt\n
+        Email: sanjaykandula3@gmail.com@gmail.com\n"""
         messagebox.showinfo("About System", msg)
 
 
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry('1350x700+0+0')
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.state('zoomed')
@@ -467,7 +467,7 @@ class HomePageView(object):
 
         # labels headers
         header1_title = Label(top_frame, 
-            text='SHALELE PLACE', 
+            text='MYDev', 
             font=('arial', 35, 'bold'), 
             fg=title_color, 
             bg=bg1_color)
@@ -479,7 +479,7 @@ class HomePageView(object):
             bg=bg1_color)
         header2_title.pack()
         header3_title = Label(top_frame, 
-            text='No. 12 Kano Road, Beside Federal Goverment Secretarial. Kastsina.', 
+            text='Chennai Central , Chennai 600025', 
             font=('arial', 12,), 
             fg=green_color, 
             bg=bg1_color)
@@ -683,7 +683,7 @@ class DailyIncomePageView(object):
     """docstring for DailyIncomePageView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("600x240+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -767,7 +767,7 @@ class DailyIncomePageView(object):
 class AccountPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("850x360+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -1129,7 +1129,7 @@ class DrinkActivityView(object):
     """docstring for FoodActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1000x400+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -1474,7 +1474,7 @@ class FoodActivityView(object):
     """docstring for FoodActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1000x400+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -1818,7 +1818,7 @@ class BookingActivityView(object):
     """docstring for BookingActivityView"""
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1200x480+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -2263,7 +2263,7 @@ class BookingActivityView(object):
 class RoomPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("850x340+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -2591,7 +2591,7 @@ class RoomPageView(object):
 class FoodPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("750x300+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -2896,7 +2896,7 @@ class FoodPageView(object):
 class DrinkPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("750x300+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -3200,7 +3200,7 @@ class DrinkPageView(object):
 class CustomerPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("950x340+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -3549,7 +3549,7 @@ class BookingPageView(object):
 
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1200x640+20+10")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -4529,7 +4529,7 @@ class BookingPageView(object):
 class OrderPageView(object):
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1260x590+20+20")
         self.root.config(bd=0, bg=white_color, relief='flat')
         # self.root.resizable(0, 0)
@@ -4560,7 +4560,7 @@ class OrderPageView(object):
 
         def get_receipt_page_view():
             newWindow = Toplevel()
-            newWindow.title("SHALELE PLACE")
+            newWindow.title("MYDev")
             # newWindow.geometry("810x500+200+100")
             newWindow.config(bd=0, bg=white_color, relief='flat')
             newWindow.resizable(0, 0)
@@ -5489,7 +5489,7 @@ class OrderPageView(object):
 class InventoryPageView(object): 
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("1100x630+20+20")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
@@ -6212,7 +6212,7 @@ class LoginHistoryPage(object):
     """docstring for LoginHistoryPage"""
     def __init__(self, root):
         self.root = root
-        self.root.title("SHALELE PLACE")
+        self.root.title("MYDev")
         self.root.geometry("900x400+20+80")
         self.root.config(bd=0, bg=white_color, relief='flat')
         self.root.resizable(0, 0)
